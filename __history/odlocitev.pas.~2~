@@ -1,0 +1,27 @@
+unit odlocitev;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TFodlocitev = class(TForm)
+    Panel1: TPanel;
+    Radio1: TRadioButton;
+    Radio2: TRadioButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Fodlocitev: TFodlocitev;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,35 @@
+program SAPVpis;
+
+uses
+  Vcl.Forms,
+  Vnos in 'Vnos.pas' {Fvnos},
+  Vpiskar in 'Vpiskar.pas' {Fvpiskar},
+  single in 'single.pas' {Fsingle},
+  vpisMer in 'vpisMer.pas' {FvpisMer},
+  odlocitev in 'odlocitev.pas' {Fodlocitev},
+  KonTocke in 'KonTocke.pas' {FKonTocke},
+  vpisSkup in 'vpisSkup.pas' {FvpisSkup},
+  SqlTable in 'SqlTable.pas' {FSqlTable},
+  SqlSarze in 'SqlSarze.pas' {FSqlSarze},
+  PrijavaSAP in '..\..\PTC2\Generic\PrijavaSAP.pas' {FprijavaSAP},
+  deklar in '..\..\PTC2\Generic\deklar.pas',
+  VpisPrijava in '..\..\PTC2\Generic\VpisPrijava.pas' {FVpisPrijava};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFvnos, Fvnos);
+  Application.CreateForm(TFvpiskar, Fvpiskar);
+  Application.CreateForm(TFsingle, Fsingle);
+  Application.CreateForm(TFvpisMer, FvpisMer);
+  Application.CreateForm(TFodlocitev, Fodlocitev);
+  Application.CreateForm(TFKonTocke, FKonTocke);
+  Application.CreateForm(TFvpisSkup, FvpisSkup);
+  Application.CreateForm(TFSqlTable, FSqlTable);
+  Application.CreateForm(TFSqlSarze, FSqlSarze);
+  Application.CreateForm(TFprijavaSAP, FprijavaSAP);
+  Application.CreateForm(TFVpisPrijava, FVpisPrijava);
+  Application.Run;
+end.

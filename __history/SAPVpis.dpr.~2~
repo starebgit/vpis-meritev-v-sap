@@ -1,0 +1,14 @@
+program SAPVpis;
+
+uses
+  Vcl.Forms,
+  Vnos in 'Vnos.pas' {Fvnos};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFvnos, Fvnos);
+  Application.Run;
+end.

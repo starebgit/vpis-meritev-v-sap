@@ -1,0 +1,18 @@
+program SAPVpis;
+
+uses
+  Vcl.Forms,
+  Vnos in 'Vnos.pas' {Fvnos},
+  Vpiskar in 'Vpiskar.pas' {Fvpiskar},
+  single in 'single.pas' {Fsingle};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFvnos, Fvnos);
+  Application.CreateForm(TFvpiskar, Fvpiskar);
+  Application.CreateForm(TFsingle, Fsingle);
+  Application.Run;
+end.

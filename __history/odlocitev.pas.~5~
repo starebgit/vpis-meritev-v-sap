@@ -1,0 +1,44 @@
+unit odlocitev;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TFodlocitev = class(TForm)
+    Panel1: TPanel;
+    Radio1: TRadioButton;
+    Radio2: TRadioButton;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    Button2: TButton;
+  private
+    { Private declarations }
+  public
+    Procedure vpis(var odl,opp :string; var vrd : boolean) ;
+  end;
+
+var
+  Fodlocitev: TFodlocitev;
+
+implementation
+
+{$R *.dfm}
+
+Procedure TFOdlocitev.vpis(var odl,opp :string; var vrd : boolean) ;
+begin
+  //  panel1.Color := $02C0FFFF ;
+  radio1.Checked := true ;
+  ShowModal ;
+  if modalResult = mrOk then
+  begin
+    vrd := true ;
+    opp := edit1.Text ;
+    if radio1.checked then odl := 'A' else odl := 'R' ;
+  end else vrd := false ;
+end ;
+
+end.

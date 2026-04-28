@@ -1,0 +1,15 @@
+790000000059,201,201-SPC-Toèkanje protektorja avto. 7026 ,
+790000000061,201,201-SPC-Toèkanje protektorja roèno 7028 ,
+790000000062,201,201-SPC-Izdelava centrirnega obroèa 7029,
+790000000063,201,201-SPC-Stroji za sestavo sponk 7030    ,
+790000033363,201,201-SPC-Medfazna kontrola PLAT 6 11928  ,PLAT6          
+790000000038,202,202-SPC-Vlažnost mase 6958              ,
+790000028362,202,202-SPC-L1-180 6958                     ,
+790000028363,202,202-SPC-L4-145  8031                    ,
+790000026448,202,202-SPC-L5-220  9977                    ,
+790000026451,202,202-SPC-L3-145  9978                    ,
+790000026452,202,202-SPC-L2-180  9978                    ,
+790000033777,201,201-SPC-Medfazna kontrola PLAT 1        ,PLAT1          
+790000033778,201,201-SPC-Medfazna kontrola PLAT 3        ,PLAT3          
+790000033779,201,201-SPC-Medfazna kontrola PLAT 4        ,PLAT4          
+790000033781,201,201-SPC-Medfazna kontrola PLAT 5        ,PLAT5          

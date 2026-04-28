@@ -1,0 +1,10 @@
+
+**** Trace file opened at 20160429 070823 Srednjeevropski poletni èas  , by SAPVpis
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=boncinar CLIENT=101 LANG=sl PASSWD=******* SYSNR=20 ASHOST=10.0.2.200 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+

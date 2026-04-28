@@ -1,0 +1,110 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Fvpiskar'
+  ClientHeight = 545
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 473
+    Height = 545
+    Align = alLeft
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    object CheckBox1: TCheckBox
+      Left = 40
+      Top = 40
+      Width = 121
+      Height = 17
+      Caption = 'Izdelek '#353't. 1'
+      TabOrder = 0
+    end
+    object CheckBox2: TCheckBox
+      Left = 40
+      Top = 80
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 2'
+      TabOrder = 1
+    end
+    object CheckBox3: TCheckBox
+      Left = 40
+      Top = 120
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 3'
+      TabOrder = 2
+    end
+    object CheckBox4: TCheckBox
+      Left = 40
+      Top = 160
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 4'
+      TabOrder = 3
+    end
+    object CheckBox5: TCheckBox
+      Left = 40
+      Top = 200
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 5'
+      TabOrder = 4
+    end
+    object CheckBox6: TCheckBox
+      Left = 40
+      Top = 240
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 6'
+      TabOrder = 5
+    end
+    object CheckBox7: TCheckBox
+      Left = 40
+      Top = 280
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 7'
+      TabOrder = 6
+    end
+    object CheckBox8: TCheckBox
+      Left = 40
+      Top = 320
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 8'
+      TabOrder = 7
+    end
+    object CheckBox9: TCheckBox
+      Left = 40
+      Top = 360
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 9'
+      TabOrder = 8
+    end
+    object CheckBox10: TCheckBox
+      Left = 40
+      Top = 400
+      Width = 129
+      Height = 17
+      Caption = 'Izdelek '#353't. 10'
+      TabOrder = 9
+    end
+  end
+end

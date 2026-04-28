@@ -1,0 +1,42 @@
+unit KonTocke;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  InsPoint = record
+    naziv : string ;
+    datum : TdateTime ;
+    time : TdateTime ;
+  end;
+  TFKonTocke = class(TForm)
+    Panel1: TPanel;
+    List1: TListBox;
+  private
+    { Private declarations }
+  public
+    procedure Izbira(listPoint : Tlist) ;
+  end;
+
+var
+  FKonTocke: TFKonTocke;
+
+implementation
+
+{$R *.dfm}
+procedure TFkonTocke.Izbira(listPoint : Tlist) ;
+  var i : integer ;
+  px : ^inspoint ;
+begin
+  for i := 0 to listPoint.count-1 do
+  begin
+    px := listPoint[i] ;
+    list1.items.add(Format('%-10s',[px^.naziv]) + dateTostr(px^.datum)+ ' ' + TimeTostr(px^.time)) ;
+  end;
+  ShowModal ;
+  list1.Items.Clear ;
+end;
+end.

@@ -1,0 +1,85 @@
+object FvpisSkup: TFvpisSkup
+  Left = 0
+  Top = 0
+  Caption = 'FvpisSkup'
+  ClientHeight = 300
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 497
+    Height = 300
+    Align = alLeft
+    Color = clCream
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = [fsBold]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 32
+      Top = 48
+      Width = 47
+      Height = 16
+      Caption = 'Label1'
+    end
+    object Label2: TLabel
+      Left = 32
+      Top = 88
+      Width = 47
+      Height = 16
+      Caption = 'Label2'
+    end
+    object Label3: TLabel
+      Left = 32
+      Top = 128
+      Width = 47
+      Height = 16
+      Caption = 'Label3'
+    end
+    object Label4: TLabel
+      Left = 32
+      Top = 168
+      Width = 130
+      Height = 16
+      Caption = 'Srednja vrednost : '
+    end
+    object Edit1: TEdit
+      Left = 168
+      Top = 165
+      Width = 113
+      Height = 24
+      TabOrder = 0
+    end
+  end
+  object Button1: TButton
+    Left = 528
+    Top = 24
+    Width = 75
+    Height = 25
+    Caption = 'V redu'
+    TabOrder = 1
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 528
+    Top = 79
+    Width = 75
+    Height = 25
+    Caption = 'Prekini'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+end

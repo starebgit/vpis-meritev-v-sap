@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.606,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.983,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.926,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.434,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.721,D:\Emb_programi\Plata\SAPmer\Unit1.pas=D:\Emb_programi\Plata\SAPmer\odlocitev.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.062,D:\Emb_programi\Plata\SAPmer\Unit1.pas=D:\Emb_programi\Plata\SAPmer\single.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.045,D:\Emb_programi\Plata\SAPmer\Unit1.pas=D:\Emb_programi\Plata\SAPmer\KonTocke.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.262,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.897,=D:\Emb_programi\PTC2\Generic\deklar.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.572,D:\Emb_programi\Plata\SAPmer\vpisSkup.pas=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.093,D:\Emb_programi\Plata\SAPmer\vpisMer.dfm=D:\Emb_programi\Plata\SAPmer\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.885,D:\Emb_programi\Plata\SAPmer\Unit1.dfm=D:\Emb_programi\Plata\SAPmer\SqlTable.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.059,D:\Emb_programi\Plata\SAPmer\Unit1.dfm=D:\Emb_programi\Plata\SAPmer\KonTocke.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.062,D:\Emb_programi\Plata\SAPmer\Unit1.dfm=D:\Emb_programi\Plata\SAPmer\single.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.721,D:\Emb_programi\Plata\SAPmer\Unit1.dfm=D:\Emb_programi\Plata\SAPmer\odlocitev.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.885,D:\Emb_programi\Plata\SAPmer\Unit1.pas=D:\Emb_programi\Plata\SAPmer\SqlTable.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.406,D:\Emb_programi\Plata\SAPmer\SqlSarze.dfm=D:\Emb_programi\Plata\SAPmer\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.664,D:\Emb_programi\Plata\SAPmer\Vnos.dfm=C:\Users\Ter_kon_robi\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.477,D:\Emb_programi\Plata\SAPmer\SAPVpis.dproj=C:\Users\Ter_kon_robi\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.265,D:\Emb_programi\Plata\SAPmer\Vpiskar.pas=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.864,=D:\Emb_programi\PTC2\Generic\PrijavaSAP.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.664,D:\Emb_programi\Plata\SAPmer\Vnos.pas=C:\Users\Ter_kon_robi\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.265,D:\Emb_programi\Plata\SAPmer\Vpiskar.dfm=D:\Emb_programi\Plata\SAPmer\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.572,D:\Emb_programi\Plata\SAPmer\vpisSkup.dfm=D:\Emb_programi\Plata\SAPmer\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.693,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.564,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.972,=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.336,=C:\Users\Ter_kon_robi\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.926,=D:\Emb_programi\PTC2\Generic\VpisPrijava.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.093,D:\Emb_programi\Plata\SAPmer\vpisMer.pas=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.406,D:\Emb_programi\Plata\SAPmer\SqlSarze.pas=D:\Emb_programi\Plata\SAPmer\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

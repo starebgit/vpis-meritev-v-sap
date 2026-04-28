@@ -1,0 +1,303 @@
+object Fvnos: TFvnos
+  Left = 0
+  Top = 0
+  Caption = 'Fvnos'
+  ClientHeight = 710
+  ClientWidth = 1126
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnActivate = FormActivate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 64
+    Width = 1126
+    Height = 646
+    Align = alBottom
+    Color = clMedGray
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 56
+      Top = 24
+      Width = 44
+      Height = 24
+      Caption = 'Koda'
+    end
+    object Label2: TLabel
+      Left = 894
+      Top = 24
+      Width = 54
+      Height = 24
+      Caption = 'Datum'
+    end
+    object Label3: TLabel
+      Left = 56
+      Top = 160
+      Width = 131
+      Height = 24
+      Caption = 'Kontrolne sar'#382'e'
+    end
+    object Label4: TLabel
+      Left = 688
+      Top = 160
+      Width = 82
+      Height = 24
+      Caption = 'Operacije'
+    end
+    object Label5: TLabel
+      Left = 56
+      Top = 360
+      Width = 109
+      Height = 24
+      Caption = 'Karakteristike'
+    end
+    object Label6: TLabel
+      Left = 672
+      Top = 352
+      Width = 5
+      Height = 20
+      Font.Charset = EASTEUROPE_CHARSET
+      Font.Color = clRed
+      Font.Height = -16
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 56
+      Top = 80
+      Width = 109
+      Height = 24
+      Caption = 'Naziv izdelka'
+    end
+    object Label8: TLabel
+      Left = 448
+      Top = 24
+      Width = 97
+      Height = 24
+      Caption = 'Kratki tekst  '
+    end
+    object Edit1: TEdit
+      Left = 136
+      Top = 21
+      Width = 273
+      Height = 32
+      TabOrder = 0
+    end
+    object Edit2: TEdit
+      Left = 968
+      Top = 21
+      Width = 145
+      Height = 32
+      TabOrder = 1
+    end
+    object SarzeIzbor: TListBox
+      Left = 88
+      Top = 190
+      Width = 561
+      Height = 139
+      ItemHeight = 24
+      Items.Strings = (
+        '790000003787'
+        '790000000038'
+        '790000028362')
+      TabOrder = 2
+      OnClick = SarzeIzborClick
+      OnDblClick = Button2Click
+    end
+    object OperIzbor: TListBox
+      Left = 712
+      Top = 190
+      Width = 353
+      Height = 139
+      ItemHeight = 24
+      TabOrder = 3
+      OnDblClick = Button3Click
+    end
+    object KarakIzbor: TListBox
+      Left = 88
+      Top = 390
+      Width = 841
+      Height = 203
+      ItemHeight = 24
+      TabOrder = 4
+      OnDblClick = Button4Click
+    end
+    object Edit3: TEdit
+      Left = 192
+      Top = 72
+      Width = 425
+      Height = 32
+      TabOrder = 5
+    end
+    object edit4: TComboBox
+      Left = 560
+      Top = 21
+      Width = 282
+      Height = 32
+      TabOrder = 6
+      OnClick = edit4Click
+      Items.Strings = (
+        '201'
+        '202')
+    end
+    object Button7: TButton
+      Left = 446
+      Top = 159
+      Width = 97
+      Height = 25
+      Caption = 'Za'#269'etni izbor'
+      Font.Charset = EASTEUROPE_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 7
+      OnClick = Button7Click
+    end
+    object Oddelki: TListBox
+      Left = 231
+      Top = 128
+      Width = 121
+      Height = 56
+      ItemHeight = 24
+      TabOrder = 8
+    end
+  end
+  object SAPLogonControl1: TSAPLogonControl
+    Left = 848
+    Top = 8
+    Width = 100
+    Height = 50
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 1
+    Visible = False
+    ControlData = {
+      01000100560A00002B050000470000000A26522F33204C6F676F6E050000FFFF
+      010A26522F33204C6F676F6E0F5341504C6F676F6E436F6E74726F6C00000000
+      000000000000000000}
+  end
+  object SAPFunctions1: TSAPFunctions
+    Left = 810
+    Top = 26
+    Width = 32
+    Height = 32
+    ControlData = {
+      00000500560A00002B05000000000000000000000000D64449B20115CF118981
+      0000E8A49FA001000100560A00002B050000470000000A26522F33204C6F676F
+      6EFFFFFF00000352E30B918FCE119DE300AA004BB85101EE00009001C0D40100
+      0C4D53205368656C6C20446C67010A26522F33204C6F676F6E1246756E637469
+      6F6E204F4358204C6F676F6E00000000000000000000000000000352E30B918F
+      CE119DE300AA004BB85101EE00009001C0D401000C4D53205368656C6C20446C
+      6700000000}
+  end
+  object Button1: TButton
+    Left = 33
+    Top = 16
+    Width = 121
+    Height = 25
+    Caption = 'Kontrolne sar'#382'e'
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 192
+    Top = 16
+    Width = 121
+    Height = 25
+    Caption = 'Operacije'
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 4
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 352
+    Top = 16
+    Width = 113
+    Height = 25
+    Caption = 'Karakteristike'
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 5
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 504
+    Top = 16
+    Width = 75
+    Height = 25
+    Caption = 'Vpis'
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 6
+    OnClick = Button4Click
+  end
+  object Button5: TButton
+    Left = 616
+    Top = 16
+    Width = 75
+    Height = 25
+    Caption = 'Konec'
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+    OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 1035
+    Top = 16
+    Width = 89
+    Height = 25
+    Caption = 'Lokalni zapis'
+    TabOrder = 8
+    OnClick = Button6Click
+  end
+  object Button8: TButton
+    Left = 954
+    Top = 16
+    Width = 75
+    Height = 25
+    Caption = 'Kont '#353'ar'#382'e'
+    TabOrder = 9
+    OnClick = Button8Click
+  end
+end

@@ -1,0 +1,97 @@
+
+**** Trace file opened at 20160418 105806 Srednjeevropski poletni èas  , by SAPVpis
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=boncinar CLIENT=101 LANG=sl PASSWD=******* SYSNR=00 ASHOST=10.0.2.200 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Mon Apr 18 10:58:12 2016
+Error in program 'SAPVpis': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.200, GWSERV=sapgw00, SYSNR=00
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.200:3300' not reached
+TIME        Mon Apr 18 10:58:12 2016
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.200:3300
+SYSTEM CALL connect
+ERRNO       10061
+ERRNO TEXT  WSAECONNREFUSED: Connection refused
+COUNTER     2
+
+
+**** Trace file opened at 20160418 105812 Srednjeevropski poletni èas  , by SAPVpis
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=boncinar CLIENT=101 LANG=sl PASSWD=******* SYSNR=00 ASHOST=10.0.2.200 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Mon Apr 18 10:58:28 2016
+Error in program 'SAPVpis': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.200, GWSERV=sapgw00, SYSNR=00
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.200:3300' not reached
+TIME        Mon Apr 18 10:58:28 2016
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.200:3300
+SYSTEM CALL connect
+ERRNO       10061
+ERRNO TEXT  WSAECONNREFUSED: Connection refused
+COUNTER     3
+
+
+**** Trace file opened at 20160418 105828 Srednjeevropski poletni èas  , by SAPVpis
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=boncinar CLIENT=101 LANG=sl PASSWD=******* SYSNR=00 ASHOST=10.0.2.200 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Mon Apr 18 10:59:12 2016
+Error in program 'SAPVpis': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.200, GWSERV=sapgw00, SYSNR=00
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.200:3300' not reached
+TIME        Mon Apr 18 10:59:12 2016
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.200:3300
+SYSTEM CALL connect
+ERRNO       10061
+ERRNO TEXT  WSAECONNREFUSED: Connection refused
+COUNTER     4
+
+
+**** Trace file opened at 20160418 105912 Srednjeevropski poletni èas  , by SAPVpis
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=boncinar CLIENT=101 LANG=sl PASSWD=******* SYSNR=00 ASHOST=10.0.2.200 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+

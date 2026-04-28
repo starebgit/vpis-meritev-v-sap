@@ -1,0 +1,78 @@
+unit SqlSarze;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TFSqlSarze = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    ADOQuery1: TADOQuery;
+  private
+    { Private declarations }
+  public
+    Procedure Pokazi ;
+    Procedure getodd(listodd : tstringlist) ;
+    Procedure getsarze(odd : string ; listsrz : tstringlist) ;
+  end;
+
+var
+  FSqlSarze: TFSqlSarze;
+
+implementation
+
+{$R *.dfm}
+
+Procedure TFsqlsarze.Pokazi ;
+begin
+  width := 1450 ;
+  Panel2.Width := 700 ;
+  ADOQuery1.SQL.Clear ;
+  ADOquery1.SQL.add('SELECT * FROM Kontsarze') ;
+  AdoQuery1.Open ;
+  ShowModal ;
+  AdoQuery1.Close  ;
+end ;
+
+Procedure TFsqlsarze.getodd(listodd : tstringlist) ;
+begin
+  ADOQuery1.SQL.Clear ;
+  ADOquery1.SQL.add('SELECT  DISTINCT ODDELEK FROM Kontsarze') ;
+  AdoQuery1.Open ;
+  ADOquery1.first ;
+  while not Adoquery1.eof do
+  begin
+     listodd.Add(Adoquery1.Fieldbyname('oddelek').value) ;
+     ADOquery1.Next ;
+  end;
+  AdoQuery1.Close  ;
+end;
+
+Procedure TFsqlsarze.getsarze(odd : string ; listsrz : tstringlist) ;
+  var tx : string ;
+begin
+  ADOQuery1.SQL.Clear ;
+  ADOquery1.SQL.add('SELECT  sarza, tekst  FROM Kontsarze WHERE ODDELEK = :ODD') ;
+  ADOQuery1.parameters[0].value := odd ;
+  ADOQuery1.parameters[0].name  := 'ODD' ;
+  AdoQuery1.Open ;
+  ADOquery1.first ;
+  while not Adoquery1.eof do
+  begin
+     if Adoquery1.Fieldbyname('tekst').isnull then tx := ''
+     else tx := Adoquery1.Fieldbyname('tekst').value ;
+
+     listSRZ.Add(Adoquery1.Fieldbyname('SARZA').value + '  ' + tx) ;
+     ADOquery1.Next ;
+  end;
+  AdoQuery1.Close  ;
+end;
+
+
+end.

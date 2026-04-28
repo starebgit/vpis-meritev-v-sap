@@ -1,0 +1,88 @@
+object Fodlocitev: TFodlocitev
+  Left = 0
+  Top = 0
+  Caption = 'Odlo'#269'itev'
+  ClientHeight = 300
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 529
+    Height = 300
+    Align = alLeft
+    Color = clCream
+    Font.Charset = EASTEUROPE_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Microsoft Sans Serif'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 24
+      Top = 120
+      Width = 53
+      Height = 16
+      Caption = 'Opomba'
+    end
+    object Label2: TLabel
+      Left = 24
+      Top = 24
+      Width = 157
+      Height = 16
+      Caption = 'Odlo'#269'itev za karakteristiko'
+    end
+    object Radio1: TRadioButton
+      Left = 40
+      Top = 46
+      Width = 113
+      Height = 17
+      Caption = 'A(cepted)'
+      TabOrder = 0
+    end
+    object Radio2: TRadioButton
+      Left = 40
+      Top = 71
+      Width = 113
+      Height = 17
+      Caption = 'R(ejected)'
+      TabOrder = 1
+    end
+    object Edit1: TEdit
+      Left = 40
+      Top = 142
+      Width = 361
+      Height = 24
+      MaxLength = 40
+      TabOrder = 2
+    end
+  end
+  object Button1: TButton
+    Left = 544
+    Top = 24
+    Width = 75
+    Height = 25
+    Caption = 'V redu'
+    ModalResult = 1
+    TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 544
+    Top = 67
+    Width = 75
+    Height = 25
+    Caption = 'Prekini'
+    ModalResult = 2
+    TabOrder = 2
+  end
+end

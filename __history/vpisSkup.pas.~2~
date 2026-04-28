@@ -1,0 +1,34 @@
+unit vpisSkup;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TFvpisSkup = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+  private
+    { Private declarations }
+  public
+    Procedure Vpis(nkar,kar1,kar2: string ; var srd : single; var rmk: string; vrd: boolean) ;
+  end;
+
+var
+  FvpisSkup: TFvpisSkup;
+
+implementation
+
+{$R *.dfm}
+Procedure TFvpisSkup.Vpis(nkar,kar1,kar2: string ; var srd : single; var rmk: string; vrd: boolean) ;
+begin
+  label1.Caption := 'Karakteristika : ' + nkar ;
+  label2.Caption := 'Spodnja meja : ' + kar1;
+  ShowModal ;
+  vrd := true ;
+end;
+
+end.

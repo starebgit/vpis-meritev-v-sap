@@ -1,0 +1,40 @@
+object Fodlocitev: TFodlocitev
+  Left = 0
+  Top = 0
+  Caption = 'Fodlocitev'
+  ClientHeight = 300
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 321
+    Height = 300
+    Align = alLeft
+    TabOrder = 0
+    object Radio1: TRadioButton
+      Left = 24
+      Top = 24
+      Width = 113
+      Height = 17
+      Caption = 'A(cepted)'
+      TabOrder = 0
+    end
+    object Radio2: TRadioButton
+      Left = 24
+      Top = 47
+      Width = 113
+      Height = 17
+      Caption = 'R(ejected)'
+      TabOrder = 1
+    end
+  end
+end

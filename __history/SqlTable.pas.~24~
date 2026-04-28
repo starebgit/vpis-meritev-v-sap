@@ -1,0 +1,210 @@
+unit SqlTable;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
+  Data.DB, Data.Win.ADODB, pomoc, Vcl.StdCtrls;
+
+type
+  karak = record
+    stkar : string ;
+    stmer : integer ;
+    skupi : string ;
+    tip : string ;
+    merit : string  ;
+    eval : string ;
+    opom : String ;
+  end;
+  TFSqlTable = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
+    ADOQuery1ZAP: TAutoIncField;
+    ADOQuery1INSPLOT: TWideStringField;
+    ADOQuery1INSPOPER: TWideStringField;
+    ADOQuery1NAZIVKK: TStringField;
+    ADOQuery1DATUM: TDateTimeField;
+    ADOQuery1ODLOCITEV: TStringField;
+    ADOQuery1UPORAB: TStringField;
+    ADOQuery1PRENOS: TStringField;
+    ADOQuery2ZPKAR: TAutoIncField;
+    ADOQuery2ZAP: TIntegerField;
+    ADOQuery2STKAR: TWideStringField;
+    ADOQuery2STMER: TIntegerField;
+    ADOQuery2SKUPNI: TStringField;
+    ADOQuery2TIP: TStringField;
+    ADOQuery2MERITEV: TStringField;
+    ADOQuery2EVAL: TStringField;
+    ADOQuery2OPOMBA: TStringField;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    procedure ADOQuery1AfterScroll(DataSet: TDataSet);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+  private
+    Procedure DrugiSql ;
+  public
+    function ZapisVzr(srz,opr,nazivp : string) : longint  ;
+    procedure VpisChr(izap : longint; kk : integer; stkr,skpp,stip,merit,dbred,opom : string) ;
+    procedure prenos(izap: longint) ;
+    Procedure Prikaz  ;
+  end;
+
+var
+  FSqlTable: TFSqlTable;
+
+implementation
+
+{$R *.dfm}
+
+uses Vnos;
+
+function TFSqlTable.ZapisVzr(srz,opr,nazivp : string) : longint ;
+  var imer : string ;
+begin
+  ADOQuery1.SQL.Clear ;
+  ADOquery1.SQL.add('SELECT * FROM SapVzr') ;
+  try
+    AdoQuery1.Open ;
+    imer := CompIme ;
+    AdoQuery1.Append ;
+    Adoquery1insplot.Value := srz ;
+    Adoquery1inspoper.Value := opr ;
+    Adoquery1nazivkk.Value := nazivp ;
+    Adoquery1datum.Value := now ;
+    // Adoquery1odlocitev.Value := dbred ;
+    Adoquery1uporab.Value := imer ;
+    Adoquery1prenos.Value := '' ;
+    ADOQuery1.post;
+    result := AdoQuery1zap.Value ;
+  except
+  end;
+end;
+
+procedure TFSqltable.VpisChr(izap : longint; kk : integer; stkr,skpp,stip,merit,dbred,opom : string) ;
+begin
+  try
+    ADOQuery2.SQL.Clear ;
+    ADOquery2.SQL.add('SELECT * FROM SapChr') ;
+    AdoQuery2.Open ;
+    AdoQuery2.Append ;
+    Adoquery2zap.Value := izap ;
+    Adoquery2stkar.Value := stkr ;
+    Adoquery2stmer.Value := kk ;
+    Adoquery2skupni.Value := skpp ;
+    Adoquery2tip.Value := stip ;
+    Adoquery2meritev.Value := merit ;
+    Adoquery2eval.Value := dbred ;
+    Adoquery2opomba.Value := opom ;
+    ADOQuery2.post;
+  except
+  end;
+end;
+
+procedure TFsqlTable.prenos(izap: longint) ;
+begin
+  ADOQuery1.SQL.Clear ;
+  ADOquery1.SQL.add('UPDATE SapVzr SET prenos = ''X'' WHERE zap = :ZAP') ;
+  ADOQuery1.parameters[0].value := izap ;
+  ADOQuery1.parameters[0].name  := 'ZAP' ;
+  AdoQuery1.ExecSQL ;
+end;
+
+Procedure TFsqltable.Prikaz  ;
+begin
+  width := 1450 ;
+  Panel2.Width := 700 ;
+  ADOQuery1.SQL.Clear ;
+  ADOquery1.SQL.add('SELECT * FROM SapVzr') ;
+  AdoQuery1.Open ;
+  drugiSql ;
+  ShowModal ;
+end;
+
+procedure TFSqlTable.ADOQuery1AfterScroll(DataSet: TDataSet);
+begin
+   DrugiSql
+end;
+
+procedure TFSqlTable.Button1Click(Sender: TObject);
+  var srz,opr,nazivp,odl : string ;
+      bb : Boolean ;
+      dd : TdateTime ;
+      karlist : Tlist ;
+      pv : ^karak ;
+begin
+  if not (ADOQuery1prenos.value = 'X') then
+  begin
+    srz := ADOQuery1INSPLOT.value ;
+    opr := ADOQuery1INSPoper.value ;
+    nazivp := ADOQuery1nazivkk.value ;
+    dd := ADOQuery1datum.value ;
+    odl := 'A' ;
+    karlist := Tlist.Create ;
+    AdoQuery2.first ;
+    while not AdoQuery2.eof do
+    begin
+      new(pv) ;
+      pv^.stkar := ADOQuery2stkar.value ;
+      pv^.stmer := ADOQuery2stmer.value ;
+      pv^.skupi := ADOQuery2skupni.value ; ;
+      pv^.tip :=  ADOQuery2tip.value  ;
+      pv^.merit := trim(ADOQuery2meritev.value)  ;
+      pv^.eval := ADOQuery2eval.value ;
+      if ADOQuery2eval.value = 'R' then odl := 'R' ;
+      pv^.opom := ADOQuery2opomba.value ;
+      karlist.Add(pv) ;
+      AdoQuery2.Next ;
+    end;
+    bb := Fvnos.Zapis(srz,opr,nazivp,odl,dd,karlist)  ;
+    if bb then
+    begin
+      ADoQuery1.Edit ;
+      Adoquery1prenos.value := 'X' ;
+      ADOquery1.Post ;
+    end;
+    karlist.Free ;
+  end;
+end;
+
+procedure TFSqlTable.Button2Click(Sender: TObject);
+  var ii : integer ;
+begin
+   ii := MessageDlg('Ali zares želiš izbrisati',mtConfirmation,[mbYes, mbNo],0);
+   if ii = 6 then
+   begin
+     if Adoquery2.eof and adoquery2.bof then ADOQuery1.Delete  else Adoquery2.delete ;
+   end;
+end;
+
+procedure TFSqlTable.Button3Click(Sender: TObject);
+  var ii : integer ;
+begin
+   ii := MessageDlg('Ali zares želiš izbrisati',mtConfirmation,[mbYes, mbNo],0);
+   if ii = 6 then
+   begin
+     while not Adoquery2.eof do adoquery2.delete ;
+     ADOQuery1.Delete  ;
+   end;
+end;
+
+Procedure TFsqltable.DrugiSql ;
+begin
+  ADOQuery2.SQL.Clear ;
+  ADOquery2.SQL.add('SELECT * FROM SapChr where zap = :ZAP') ;
+  ADOQuery2.parameters[0].value := ADOQuery1zap.Value ;
+  ADOQuery2.parameters[0].name  := 'ZAP' ;
+  AdoQuery2.Open ;
+end;
+
+end.

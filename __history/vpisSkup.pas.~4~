@@ -1,0 +1,58 @@
+unit vpisSkup;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TFvpisSkup = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    Button2: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    xx : double ;
+    bb: boolean ;
+  public
+    Procedure Vpis(nkar,kar1,kar2: string ; var srd : double; var rmk: string; vrd: boolean) ;
+  end;
+
+var
+  FvpisSkup: TFvpisSkup;
+
+implementation
+
+{$R *.dfm}
+procedure TFvpisSkup.Button1Click(Sender: TObject);
+begin
+
+   try
+     xx := StrToFloat(edit1.Text) ;
+     bb := true ;
+     close ;
+   except
+
+   end;
+end;
+
+Procedure TFvpisSkup.Vpis(nkar,kar1,kar2: string ; var srd : double; var rmk: string; vrd: boolean) ;
+begin
+  label1.Caption := 'Karakteristika : ' + nkar ;
+  label2.Caption := 'Spodnja meja : ' + kar1;
+  label3.Caption := 'Zgornja meja : ' + kar2 ;
+
+  ShowModal ;
+  vrd := true ;
+  srd := xx ;
+  vrd := bb ;
+  rmk:= '' ;
+end;
+
+end.

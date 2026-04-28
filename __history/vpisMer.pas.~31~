@@ -1,0 +1,214 @@
+unit vpisMer;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Grids, Vcl.ExtCtrls, Vcl.StdCtrls;
+const
+  STLP = 7 ;
+type
+  karako = record
+    naziv : string ;
+    tip : string ;
+    posam : string ;
+    merit : string;
+    sptol : string ;
+    zgtol : string ;
+    eval : string ;
+    opom : string ;
+  end;
+  TFvpisMer = class(TForm)
+    Panel1: TPanel;
+    Tabla: TStringGrid;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    procedure TablaSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure Button3Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure TablaSetEditText(Sender: TObject; ACol, ARow: Integer;
+      const Value: string);
+  private
+    opi : integer ;
+    kn : integer ;
+    procedure preveri ;
+  public
+    procedure vpis(stkar : integer; nkar,kar1,kar2 : string; var listA: TstringList;var rmk : string;var bb : boolean);
+    procedure Tabelvpis(List_kar : Tlist; var bb : Boolean;var rmk : string);
+  end;
+
+var
+  FvpisMer: TFvpisMer;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFvpisMer.TablaSelectCell(Sender: TObject; ACol, ARow: Integer;
+  var CanSelect: Boolean);
+begin
+  Preveri ;
+end;
+
+procedure TFvpisMer.TablaSetEditText(Sender: TObject; ACol, ARow: Integer;
+  const Value: string);
+  var ss : string ;
+begin
+  if Acol = 6 then
+  begin
+    //Showmessage(value) ;
+    tabla.Cells[aCol,ARow] := Uppercase(value) ;
+    ss := tabla.Cells[aCol,ARow] ;
+    if ( ss <> 'A') and (ss <> 'R') and (ss <> '') then tabla.Cells[aCol,ARow] := 'R'
+  end;
+end;
+
+procedure TFVpisMer.vpis(stkar : integer; nkar,kar1,kar2 : string; var listA: TstringList; var rmk : string; var bb : boolean);
+var
+  i: Integer;
+begin
+  color := $02FFC0FF ;
+  Tabla.RowCount := stkar +1 ;
+  tabla.Cells[0,0] := 'Št. vzorca' ;
+  tabla.Cells[1,0] := 'Meritev' ;
+  tabla.Cells[2,0] := 'Sp. tol.' ;
+  tabla.Cells[3,0] := 'Zg. tol.' ;
+  for i := 1 to stkar do
+  begin
+     tabla.Cells[0,i] := IntTostr(i) ;
+     tabla.Cells[3,i] := kar1;
+     tabla.Cells[4,i] := kar2;
+     if i <= Lista.Count then Tabla.Cells[1,i] := listA[i-1] else Tabla.Cells[1,i] := '' ;
+  end;
+  edit1.Text := rmk ;
+  preveri ;
+  bb := false ;
+  ShowModal ;
+  preveri ;
+  if modalResult = mrOK then
+  begin
+    bb := true ;
+    rmk := edit1.Text ;;
+    for i  := 1 to stkar do
+    begin
+      if Tabla.Cells[1,i] <> '' then
+      begin
+        if i <= ListA.count then listA[i-1] := Tabla.Cells[1,i]
+                            else ListA.Add(Tabla.Cells[1,i]) ;
+      end;
+    end;
+  end;
+end;
+
+procedure TFVpisMer.Tabelvpis(List_kar : Tlist; var bb : boolean; var rmk : string);
+var
+  i: Integer;
+  pb: ^karako ;
+begin
+  opi := 1 ;
+  kn := 0 ;
+
+  color := $02FFC0FF ;
+  tabla.ColCount := 8 ;
+  edit1.Text := '' ;
+  tabla.ColWidths[0] := 220 ;
+  tabla.ColWidths[7] := 280 ;
+  tabla.ColWidths[1] := 50 ;
+  tabla.ColWidths[2] := 50 ;
+  tabla.ColWidths[6] := 50 ;
+  Tabla.RowCount := List_kar.count +1 ;
+  tabla.Cells[0,0] := 'Št. vzorca' ;
+  tabla.Cells[1,0] := 'Meritev' ;
+  tabla.Cells[2,0] := 'Posam.' ;
+  tabla.Cells[3,0] := 'Rezultat' ;
+  tabla.Cells[4,0] := 'Sp. tol.' ;
+  tabla.Cells[5,0] := 'Zg. tol.' ;
+  tabla.Cells[6,0] := 'A/R' ;
+  tabla.Cells[7,0] := 'Opomba' ;
+  for i := 1 to List_kar.count do
+  begin
+     pb := List_kar[i-1] ;
+     tabla.Cells[0,i] := pb^.naziv;
+     tabla.Cells[1,i] := pb^.tip;
+     tabla.Cells[2,i] := pb^.posam;
+     tabla.Cells[3,i] := '';
+     tabla.Cells[4,i] := pb^.sptol;
+     tabla.Cells[5,i] := pb^.zgtol;
+    // if i <= Lista.Count then Tabla.Cells[1,i] := listA[i-1] else Tabla.Cells[1,i] := '' ;
+  end;
+//  edit1.Text := rmk ;
+
+  bb := false ;
+  ShowModal ;
+  preveri ;
+  if kn = 1 then
+  begin
+    bb := true ;
+    rmk := edit1.Text ;
+    for i  := 1 to List_kar.count  do
+    begin
+      pb := List_kar[i-1] ;
+      pb^.merit := Tabla.Cells[3,i] ;
+      pb^.eval :=  Tabla.Cells[6,i] ;
+      pb^.opom :=  Tabla.Cells[7,i] ;
+      {if Tabla.Cells[1,i] <> '' then
+      begin
+        if i <= ListA.count then listA[i-1] := Tabla.Cells[1,i]
+                            else ListA.Add(Tabla.Cells[1,i]) ;
+      end;    }
+    end;
+  end;
+end;
+
+
+procedure TFvpisMer.Button1Click(Sender: TObject);
+begin
+  if edit1.text = '' then Showmessage('Vpiši kontrolno toèko')
+  else
+  begin
+    kn := 1 ;
+    close ;
+  end;
+end;
+
+procedure TFvpisMer.Button3Click(Sender: TObject);
+begin
+  Tabla.ColCount := STLP + opi ;
+  inc(opi) ;
+end;
+
+procedure TFVpismer.preveri ;
+  var i : integer ;
+      xx,x1 : single ;
+      bb : boolean ;
+begin
+  for i := 1 to Tabla.rowcount-1 do
+  begin
+     if tabla.Cells[1,i] = 'X' then
+     begin
+       bb := true ;
+       if tabla.Cells[3,i] <> '' then
+       begin
+         xx := StrToFloat(tabla.Cells[3,i]) ;
+         if tabla.Cells[4,i] <> '' then
+         begin
+           x1 := StrToFloat(tabla.Cells[4,i]) ;
+           if xx < x1 then bb := false ;
+         end ;
+         if tabla.Cells[5,i] <> '' then
+         begin
+           x1 := StrToFloat(tabla.Cells[5,i]) ;
+           if xx > x1 then bb := false ;
+         end ;
+         if bb then tabla.Cells[6,i] := 'A' else tabla.Cells[6,i] := 'R'
+       end;
+     end;
+  end;
+end;
+
+
+end.

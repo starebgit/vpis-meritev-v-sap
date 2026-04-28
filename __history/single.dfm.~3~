@@ -1,0 +1,41 @@
+object Fsingle: TFsingle
+  Left = 0
+  Top = 0
+  Caption = 'Fsingle'
+  ClientHeight = 539
+  ClientWidth = 1068
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 64
+    Width = 1068
+    Height = 475
+    Align = alBottom
+    BevelOuter = bvLowered
+    TabOrder = 0
+    object tabela: TStringGrid
+      Left = 1
+      Top = 1
+      Width = 1066
+      Height = 473
+      Align = alClient
+      ColCount = 10
+      DefaultColWidth = 90
+      FixedCols = 0
+      RowCount = 10
+      TabOrder = 0
+      ExplicitLeft = 232
+      ExplicitTop = 80
+      ExplicitWidth = 320
+      ExplicitHeight = 120
+    end
+  end
+end
