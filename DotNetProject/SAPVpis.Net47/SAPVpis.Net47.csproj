@@ -12,6 +12,12 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+
+    <SapNcoPath Condition="Exists('..\dll\sapnco.dll')">..\dll\sapnco.dll</SapNcoPath>
+    <SapNcoPath Condition="'$(SapNcoPath)' == '' and Exists('..\dll\32\sapnco.dll')">..\dll\32\sapnco.dll</SapNcoPath>
+
+    <SapNcoUtilsPath Condition="Exists('..\dll\sapnco_utils.dll')">..\dll\sapnco_utils.dll</SapNcoUtilsPath>
+    <SapNcoUtilsPath Condition="'$(SapNcoUtilsPath)' == '' and Exists('..\dll\32\sapnco_utils.dll')">..\dll\32\sapnco_utils.dll</SapNcoUtilsPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,11 +47,11 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="sapnco">
-      <HintPath>..\dll\sapnco.dll</HintPath>
+      <HintPath>$(SapNcoPath)</HintPath>
       <Private>true</Private>
     </Reference>
     <Reference Include="sapnco_utils">
-      <HintPath>..\dll\sapnco_utils.dll</HintPath>
+      <HintPath>$(SapNcoUtilsPath)</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>
@@ -53,9 +59,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Forms\MainForm.cs" />
     <Compile Include="Services\SapConnectionSmokeTester.cs" />
+    <Compile Include="Services\SapDestinationConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+
+  <Target Name="EnsureSapConnectorDlls" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(SapNcoPath)' == ''" Text="Missing sapnco.dll in ..\dll\ or ..\dll\32\." />
+    <Error Condition="'$(SapNcoUtilsPath)' == ''" Text="Missing sapnco_utils.dll in ..\dll\ or ..\dll\32\." />
+  </Target>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

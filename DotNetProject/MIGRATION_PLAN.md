@@ -33,3 +33,9 @@ Target:
 4. Measurement entry + A/R logic.
 5. SQL staging and resend.
 6. SAP writeback + commit.
+
+
+## Current implementation status (this session)
+- [x] Step 1.4 completed: `SAPVpis.Net47` now resolves SAP references from `dll/` with `dll/32` fallback and explicit build-time validation.
+- [ ] Step 2 gate result depends on real SAP credentials in `SAPVpis.Net47/App.config` and an executable trial run in your SAP environment.
+- Detailed runbook: `SAP_TRIAL_RUN.md`.
