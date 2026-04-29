@@ -18,15 +18,16 @@ namespace SAPVpis.Net47.Services
 
         public InspectionLotCheckResult CheckIsOpen(RfcDestination destination, string lotNumber, string language)
         {
+            var normalizedLot = NormalizeInspectionLot(lotNumber);
             var function = destination.Repository.CreateFunction("BAPI_INSPLOT_GETDETAIL");
-            function.SetValue("NUMBER", lotNumber);
+            function.SetValue("NUMBER", normalizedLot);
             function.SetValue("LANGUAGE", language);
             function.Invoke(destination);
 
             var returnStruct = function.GetStructure("RETURN");
-            var returnType = GetString(returnStruct, "TYPE");
-            var returnCode = GetStringSafe(returnStruct, "NUMBER", "CODE");
-            var returnMessage = GetString(returnStruct, "MESSAGE");
+            var returnType = GetStringByKnownField(returnStruct, "TYPE");
+            var returnCode = GetStringByKnownField(returnStruct, "NUMBER", "CODE");
+            var returnMessage = GetStringByKnownField(returnStruct, "MESSAGE");
 
             if (string.Equals(returnType, "E", StringComparison.OrdinalIgnoreCase)
                 || string.Equals(returnType, "A", StringComparison.OrdinalIgnoreCase))
@@ -37,7 +38,7 @@ namespace SAPVpis.Net47.Services
                     ReturnType = returnType,
                     ReturnCode = returnCode,
                     ReturnText = returnMessage,
-                    Message = string.Format("BAPI_INSPLOT_GETDETAIL returned {0}/{1}: {2}", returnType, returnCode, returnMessage),
+                    Message = string.Format("BAPI_INSPLOT_GETDETAIL({0}) returned {1}/{2}: {3}", normalizedLot, returnType, returnCode, returnMessage),
                     StatusCodes = Array.Empty<string>()
                 };
             }
@@ -48,7 +49,7 @@ namespace SAPVpis.Net47.Services
             for (var row = 0; row < table.RowCount; row++)
             {
                 table.CurrentIndex = row;
-                var status = GetString(table, "SYS_ST");
+                var status = GetStringByKnownField(table, "SYS_STATUS", "SYS_ST");
                 statusCodes.Add(status);
 
                 if (string.Equals(status, "DOPS", StringComparison.OrdinalIgnoreCase)) score++;
@@ -66,7 +67,7 @@ namespace SAPVpis.Net47.Services
                 ReturnText = returnMessage,
                 StatusCodes = statusCodes,
                 Message = string.Format("Lot {0}: {1} (score={2}, statuses=[{3}], return={4}/{5} {6})",
-                    lotNumber,
+                    normalizedLot,
                     open ? "OPEN" : "NOT OPEN",
                     score,
                     string.Join(",", statusCodes),
@@ -81,20 +82,29 @@ namespace SAPVpis.Net47.Services
             return (structure.GetString(field) ?? string.Empty).Trim();
         }
 
-        private static string GetStringSafe(IRfcStructure structure, params string[] fields)
+        private static string GetStringByKnownField(IRfcStructure structure, params string[] candidateFields)
         {
-            foreach (var field in fields)
+            var field = FindExistingField(structure.Metadata, candidateFields);
+            return string.IsNullOrWhiteSpace(field) ? string.Empty : GetString(structure, field);
+        }
+
+        private static string GetStringByKnownField(IRfcTable table, params string[] candidateFields)
+        {
+            var field = FindExistingField(table.Metadata.LineType, candidateFields);
+            return string.IsNullOrWhiteSpace(field) ? string.Empty : GetString(table, field);
+        }
+
+        private static string FindExistingField(RfcContainerMetadata metadata, params string[] candidateFields)
+        {
+            for (var i = 0; i < metadata.FieldCount; i++)
             {
-                try
+                var existingName = metadata[i].Name;
+                foreach (var candidate in candidateFields)
                 {
-                    var value = GetString(structure, field);
-                    if (!string.IsNullOrWhiteSpace(value))
+                    if (string.Equals(existingName, candidate, StringComparison.OrdinalIgnoreCase))
                     {
-                        return value;
+                        return existingName;
                     }
-                }
-                catch
-                {
                 }
             }
 
@@ -104,6 +114,12 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcTable table, string field)
         {
             return (table.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string NormalizeInspectionLot(string lot)
+        {
+            var value = (lot ?? string.Empty).Trim();
+            return value.Length >= 12 ? value : value.PadLeft(12, '0');
         }
     }
 }
