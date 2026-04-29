@@ -25,7 +25,7 @@ namespace SAPVpis.Net47.Services
 
             var returnStruct = function.GetStructure("RETURN");
             var returnType = GetString(returnStruct, "TYPE");
-            var returnCode = GetString(returnStruct, "CODE");
+            var returnCode = GetStringSafe(returnStruct, "NUMBER", "CODE");
             var returnMessage = GetString(returnStruct, "MESSAGE");
 
             if (string.Equals(returnType, "E", StringComparison.OrdinalIgnoreCase)
@@ -79,6 +79,26 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcStructure structure, string field)
         {
             return (structure.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string GetStringSafe(IRfcStructure structure, params string[] fields)
+        {
+            foreach (var field in fields)
+            {
+                try
+                {
+                    var value = GetString(structure, field);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return string.Empty;
         }
 
         private static string GetString(IRfcTable table, string field)
