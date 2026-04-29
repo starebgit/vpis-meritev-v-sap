@@ -43,10 +43,8 @@ namespace SAPVpis.Net47.Forms
         {
             var result = SapConnectionSmokeTester.RunTrial();
             _txtStatus.Text = result.Success
-                ? "SAP trial passed.
-" + result.Message
-                : "SAP trial failed.
-" + result.Message;
+                ? "SAP trial passed." + Environment.NewLine + result.Message
+                : "SAP trial failed." + Environment.NewLine + result.Message;
         }
     }
 }

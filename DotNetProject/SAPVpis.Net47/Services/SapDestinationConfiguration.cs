@@ -43,8 +43,6 @@ namespace SAPVpis.Net47.Services
             parameters[RfcConfigParameters.Language] = ReadRequired("sap.lang");
 
             AddOptional(parameters, RfcConfigParameters.PoolSize, "sap.pool_size");
-            AddOptional(parameters, RfcConfigParameters.MaxPoolSize, "sap.max_pool_size");
-            AddOptional(parameters, RfcConfigParameters.IdleTimeout, "sap.idle_timeout");
             AddOptional(parameters, RfcConfigParameters.PeakConnectionsLimit, "sap.peak_connections_limit");
 
             return parameters;

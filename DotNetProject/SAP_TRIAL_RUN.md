@@ -26,7 +26,7 @@ Optional:
 
 - `sap.destination.name` (default `SAP_DEFAULT`)
 - `sap.smoke.rfc` (default `RFC_SYSTEM_INFO`)
-- pool settings (`sap.pool_size`, `sap.max_pool_size`, `sap.idle_timeout`, `sap.peak_connections_limit`)
+- pool settings (`sap.pool_size`, `sap.peak_connections_limit`)
 
 > There is currently no SAP login popup form in this .NET skeleton. Login is config-driven from `App.config`.
 
