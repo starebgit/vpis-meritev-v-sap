@@ -1,0 +1,37 @@
+
+**** Log file opened by process 11704 at 2026-04-29 07:45:03 (UTC+02:00 Zahodnoevropski poletni čas)
+
+SAP .NET Connector 3.1 with file version 3.1.6.0 running on 32-bit .NET Framework 4.0.30319.42000
+Program: C:\source\delphi-forCodex\vpis-meritev-v-sap\DotNetProject\SAPVpis.Net47\bin\Debug\SAPVpis.Net47.exe
+Working directory: C:\source\delphi-forCodex\vpis-meritev-v-sap\DotNetProject\SAPVpis.Net47\bin\Debug
+Trace directory: .\
+Trace encoding: utf-8
+Operating system: Windows 10 Professional 64-bit 
+Processor: 12x AMD64 (or x64)
+SAP release: 789, Kernel release: 789, Kernel patch level: 413
+Hostname: CL003240, IP address: 169.254.220.99, IP_v6 address: fe80::a61a:726e:6801:bcb5
+Locale: sl-SI (number decimal separator: ",", number group separator: ".", negative sign: "-")
+
+Default trace level: None
+
+>> Error entry 2026-04-29 07:45:03.304 [Thread 1]
+SAP.Middleware.Connector.RfcInvalidParameterException: Destination SAP_DEFAULT does not exist
+   at SAP.Middleware.Connector.RfcDestinationManager.GetDestination(String destinationName) in D:\depot\bas\789_REL\gen\optU\ntintel\krn\rfc\nco3\krn\rfc\nco3\sapnco\RfcDestinationManager.cs:line 577
+   at SAPVpis.Net47.Services.SapConnectionSmokeTester.RunTrial() in C:\source\delphi-forCodex\vpis-meritev-v-sap\DotNetProject\SAPVpis.Net47\Services\SapConnectionSmokeTester.cs:line 22
+   at SAPVpis.Net47.Forms.MainForm.BtnSapTrialOnClick(Object sender, EventArgs e) in C:\source\delphi-forCodex\vpis-meritev-v-sap\DotNetProject\SAPVpis.Net47\Forms\MainForm.cs:line 44
+   at System.Windows.Forms.Control.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnClick(EventArgs e)
+   at System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   at System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   at System.Windows.Forms.Control.WndProc(Message& m)
+   at System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   at System.Windows.Forms.Button.WndProc(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   at System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   at System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   at System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   at System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   at System.Windows.Forms.Application.Run(Form mainForm)
+   at SAPVpis.Net47.Program.Main() in C:\source\delphi-forCodex\vpis-meritev-v-sap\DotNetProject\SAPVpis.Net47\Program.cs:line 14
