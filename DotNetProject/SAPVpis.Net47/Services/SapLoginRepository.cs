@@ -50,6 +50,12 @@ namespace SAPVpis.Net47.Services
             }
         }
 
+        public static string ResolvePlant(string sapUser)
+        {
+            var normalized = (sapUser ?? string.Empty).Trim();
+            return string.Equals(normalized, "rsg_rfc_1", StringComparison.OrdinalIgnoreCase) ? "0401" : "1061";
+        }
+
         private static string ReadColumn(SqlDataReader reader, string column)
         {
             var value = reader[column];
