@@ -14,7 +14,6 @@ namespace SAPVpis.Net47.Services
             public string ReturnCode { get; set; }
             public string ReturnText { get; set; }
             public IReadOnlyCollection<string> StatusCodes { get; set; }
-            public string Diagnostics { get; set; }
         }
 
         public InspectionLotCheckResult CheckIsOpen(RfcDestination destination, string lotNumber, string language)
@@ -40,8 +39,7 @@ namespace SAPVpis.Net47.Services
                     ReturnCode = returnCode,
                     ReturnText = returnMessage,
                     Message = string.Format("BAPI_INSPLOT_GETDETAIL({0}) returned {1}/{2}: {3}", normalizedLot, returnType, returnCode, returnMessage),
-                    StatusCodes = Array.Empty<string>(),
-                    Diagnostics = "FieldMapping: RETURN.TYPE, RETURN.NUMBER, RETURN.MESSAGE, SYSTEM_STATUS.SYS_STATUS"
+                    StatusCodes = Array.Empty<string>()
                 };
             }
 
@@ -75,8 +73,7 @@ namespace SAPVpis.Net47.Services
                     string.Join(",", statusCodes),
                     returnType,
                     returnCode,
-                    returnMessage),
-                Diagnostics = "FieldMapping: RETURN.TYPE, RETURN.NUMBER, RETURN.MESSAGE, SYSTEM_STATUS.SYS_STATUS"
+                    returnMessage)
             };
         }
 
