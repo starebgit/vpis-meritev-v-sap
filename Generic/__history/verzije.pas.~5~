@@ -1,0 +1,70 @@
+unit verzije;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TFverzije = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
+    procedure ADOQuery1AfterScroll(DataSet: TDataSet);
+  private
+    procedure Sql1 ;
+  public
+    Procedure pokazi ;
+  end;
+
+var
+  Fverzije: TFverzije;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFverzije.Sql1 ;
+  var idl : integer ;
+begin
+  if  Adoquery1.isempty then exit ;
+   if not Adoquery1.fieldByName('idver').isnull then
+  begin
+    idl := Adoquery1.fieldByName('idver').value ;
+    Adoquery2.sql.clear ;
+    Adoquery2.sql.add('SELECT * from novosti where idver = :ID') ;
+    Adoquery2.parameters[0].name := 'ID' ;
+    Adoquery2.parameters[0].value := idl ;
+    Adoquery2.Open ;
+  end else
+  begin
+    //Adoquery2.sql.clear ;
+   // Adoquery2.sql.add('SELECT * from konplan') ;
+   // Adoquery2.Open ;
+  end
+end ;
+
+
+procedure TFverzije.ADOQuery1AfterScroll(DataSet: TDataSet);
+begin
+  Sql1
+end;
+
+Procedure TFverzije.pokazi ;
+begin
+  adoquery1.sql.clear ;
+  Adoquery1.sql.add('select * from verzije') ;
+  Adoquery1.open ;
+  Sql1 ;
+  ShowModal ;
+end;
+
+end.

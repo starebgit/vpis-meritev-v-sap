@@ -1,0 +1,93 @@
+object Fmerila: TFmerila
+  Left = 0
+  Top = 0
+  Caption = 'Lista meril'
+  ClientHeight = 412
+  ClientWidth = 1504
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 1504
+    Height = 54
+    Align = alTop
+    Color = clMoneyGreen
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 0
+    object Button1: TButton
+      Left = 64
+      Top = 18
+      Width = 137
+      Height = 25
+      Caption = 'Novo merilo'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 312
+      Top = 18
+      Width = 75
+      Height = 25
+      Caption = 'Konec'
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 54
+    Width = 1504
+    Height = 358
+    Align = alClient
+    TabOrder = 1
+    object DBGrid1: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 1502
+      Height = 356
+      Align = alClient
+      DataSource = DataSource1
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -15
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = ADOQuery1
+    Left = 328
+    Top = 161
+  end
+  object ADOQuery1: TADOQuery
+    ConnectionString = 
+      'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
+      'fo=False;Initial Catalog=strojna;Data Source=172.20.11.155\tsspi' +
+      'ca'
+    Parameters = <>
+    Left = 400
+    Top = 161
+  end
+end

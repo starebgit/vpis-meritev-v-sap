@@ -1,0 +1,34 @@
+unit verzije;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TFverzije = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    DBGrid1: TDBGrid;
+    DBGrid2: TDBGrid;
+    DataSource1: TDataSource;
+    DataSource2: TDataSource;
+    ADOQuery1: TADOQuery;
+    ADOQuery2: TADOQuery;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Fverzije: TFverzije;
+
+implementation
+
+{$R *.dfm}
+
+end.

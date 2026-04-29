@@ -1,0 +1,80 @@
+object Flegenda: TFlegenda
+  Left = 0
+  Top = 0
+  Caption = 'Flegenda'
+  ClientHeight = 264
+  ClientWidth = 438
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 438
+    Height = 201
+    Align = alTop
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 112
+      Top = 32
+      Width = 185
+      Height = 27
+      TabStop = False
+      Color = clRed
+      TabOrder = 0
+    end
+    object Edit2: TEdit
+      Left = 112
+      Top = 80
+      Width = 185
+      Height = 27
+      TabStop = False
+      Color = clYellow
+      TabOrder = 1
+    end
+    object Edit3: TEdit
+      Left = 112
+      Top = 128
+      Width = 185
+      Height = 27
+      TabStop = False
+      TabOrder = 2
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 201
+    Width = 438
+    Height = 63
+    Align = alClient
+    TabOrder = 1
+    object Button1: TButton
+      Left = 168
+      Top = 24
+      Width = 75
+      Height = 25
+      Caption = 'Zapri'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ModalResult = 1
+      ParentFont = False
+      TabOrder = 0
+    end
+  end
+end

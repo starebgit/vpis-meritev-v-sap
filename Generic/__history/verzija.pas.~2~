@@ -1,0 +1,32 @@
+unit verzija;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TFverzija = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Label1: TLabel;
+  private
+    { Private declarations }
+  public
+    Procedure pokazi ;
+  end;
+
+var
+  Fverzija: TFverzija;
+
+implementation
+
+{$R *.dfm}
+
+Procedure TFverzija.pokazi ;
+begin
+  ShowModal
+end;
+
+end.

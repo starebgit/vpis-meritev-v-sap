@@ -1,0 +1,39 @@
+
+**** Trace file opened at 20230623 090256 Srednjeevropski poletni èas  , by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=SL PASSWD=******* SYSNR=20 ASHOST=10.0.2.42 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Fri Jun 23 09:03:17 2023
+Error in program 'SAPSpc': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.42, GWSERV=sapgw20, SYSNR=20
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.42:3320' not reached
+TIME        Fri Jun 23 09:03:17 2023
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.42:3320
+SYSTEM CALL connect
+ERRNO       10060
+ERRNO TEXT  WSAETIMEDOUT: Connection timed out
+COUNTER     2
+
+
+**** Trace file opened at 20230623 090317 Srednjeevropski poletni èas  , by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=SL PASSWD=******* SYSNR=20 ASHOST=10.0.2.42 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+

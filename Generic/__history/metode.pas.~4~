@@ -1,0 +1,65 @@
+unit metode;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls, VpisMetoda;
+
+type
+  TFmetode = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    ADOQuery1: TADOQuery;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    procedure SetConnect ;
+  public
+    Procedure prikaz ;
+    procedure Zapis(idp,kan: integer; mp : string )  ;
+  end;
+
+var
+  Fmetode: TFmetode;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFmetode.Button1Click(Sender: TObject);
+begin
+  FVpismetoda.vpis ;
+end;
+
+Procedure TFmetode.prikaz ;
+begin
+  setconnect ;
+  Adoquery1.sql.clear ;
+  Adoquery1.sql.add('SELECT * FROM metode') ;
+  Adoquery1.open ;
+  ShowModal ;
+end;
+
+procedure TFmetode.SetConnect ;
+  var dir : string ;
+begin
+  dir := ExtractfilePath(application.ExeName) ;
+  adoquery1.connectionString := 'FILE NAME=' + dir + 'strojna.udl';
+end;
+
+procedure TFMetode.Zapis(idp,kan: integer; mp : string )  ;
+begin
+  Adoquery1.append ;
+  adoquery1.fieldbyname('idpost').value := idp;
+  adoquery1.fieldbyname('metoda').value := mp;
+  adoquery1.fieldbyname('kanal').value := kan;
+  Adoquery1.post ;
+
+end;
+
+
+end.

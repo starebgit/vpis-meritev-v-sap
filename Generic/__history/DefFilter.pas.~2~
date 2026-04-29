@@ -1,0 +1,34 @@
+unit DefFilter;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls;
+
+type
+  TFDefFilter = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Label1: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    Label2: TLabel;
+    Label3: TLabel;
+    Edit1: TEdit;
+    Label4: TLabel;
+    Edit2: TEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FDefFilter: TFDefFilter;
+
+implementation
+
+{$R *.dfm}
+
+end.

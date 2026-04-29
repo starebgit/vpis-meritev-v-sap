@@ -1,0 +1,114 @@
+unit VpisStroj;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, sinapro, deklar;
+
+type
+  TFvpisStroj = class(TForm)
+    Panel1: TPanel;
+    List1: TListBox;
+    List2: TListBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    List3: TListBox;
+    procedure FormActivate(Sender: TObject);
+    procedure List1Click(Sender: TObject);
+  private
+    listEnote : Tlist ;
+    listSkup : Tlist ;
+    listStroji : Tlist ;
+    procedure FillDelEnote ;
+    procedure FillDelavnice ;
+    procedure FillStroji ;
+  public
+    procedure  Vpis ;
+  end;
+
+var
+  FvpisStroj: TFvpisStroj;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFvpisStroj.FormActivate(Sender: TObject);
+begin
+   //FillDelEnote ;
+end;
+
+procedure TFvpisStroj.List1Click(Sender: TObject);
+begin
+  FillDelavnice ;
+end;
+
+procedure  TFVpisStroj.Vpis ;
+begin
+   FillDelEnote ;
+   showModal ;
+end;
+
+procedure TFvpisStroj.FillDelEnote ;
+  var pp : ^zapis ;
+      ii : integer ;
+begin
+   ListEnote := Tlist.create ;
+   Fsinapro.getenote(listenote) ;
+   for ii := 0 to listenote.Count-1   do
+   begin
+     pp := listenote[ii] ;
+     List1.Items.Add(pp^.naziv) ;
+   end;
+end;
+
+procedure TFvpisStroj.FillDelavnice ;
+  var ii : integer ;
+      pp : ^zapis ;
+      ident : integer ;
+begin
+   //Delavnice.Caption := 'Delavnice' ;
+   ii := List1.ItemIndex ;
+   pp := ListEnote[ii] ;
+   ident := pp^.ident ;
+  // Pocisti1(ListSkup) ;
+   ListSkup := Tlist.Create ;
+   Fsinapro.getDelavnice(ident,ListSkup);
+
+   List2.Items.Clear ;
+   for ii := 0 to listSkup.count-1  do
+   begin
+     pp := ListSkup[ii] ;
+     List2.Items.Add(pp^.naziv) ;
+   end;
+
+end;
+
+
+procedure TFvpisStroj.FillStroji ;
+  var ii : integer ;
+      pp : ^zapis ;
+      ident : integer ;
+      str : int64 ;
+begin
+   //Label2.Caption := 'Stroji' ;
+   ii := List2.ItemIndex ;
+   pp := ListSkup[ii] ;
+   ident := pp^.ident ;
+ //  Pocisti1(ListStroji) ;
+   Liststroji := Tlist.Create ;
+   Fsinapro.GetStroji(ident,ListStroji) ;
+
+   List3.Items.Clear ;
+   for ii := 0 to ListStroji.Count-1  do
+   begin
+     pp := listStroji[ii] ;
+     List3.Items.Add(pp^.naziv) ;
+   end;
+
+end;
+
+
+end.

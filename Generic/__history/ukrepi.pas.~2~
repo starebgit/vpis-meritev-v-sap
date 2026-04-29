@@ -1,0 +1,66 @@
+unit ukrepi;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Grids,postaje,
+  Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TFukrepi = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    ADOQuery1: TADOQuery;
+  private
+    procedure SetConnect ;
+  public
+    Procedure prikaz ;
+    procedure Getukrepi(var listuk : TstringList);
+  end;
+
+var
+  Fukrepi: TFukrepi;
+
+implementation
+
+{$R *.dfm}
+
+Procedure TFukrepi.prikaz ;
+begin
+  setconnect ;
+  Adoquery1.sql.clear ;
+  Adoquery1.sql.add('SELECT * FROM ukrepi') ;
+  Adoquery1.open ;
+  ShowModal ;
+end;
+
+procedure TFukrepi.SetConnect ;
+  var dir : string ;
+begin
+  dir := ExtractfilePath(application.ExeName) ;
+  adoquery1.connectionString := 'FILE NAME=' + dir + 'strojna.udl';
+end;
+
+procedure TFukrepi.Getukrepi(var listuk : TstringList);
+  var idp : integer ;
+begin
+  setconnect ;
+  idp := Fpostaje.Getpost ;
+  Adoquery1.sql.clear ;
+  Adoquery1.sql.add('SELECT * FROM ukrepi where idpost = :IDP') ;
+  Adoquery1.Parameters[0].Value := idp ;
+  Adoquery1.Parameters[0].name := 'IDP' ;
+  Adoquery1.open ;
+  Adoquery1.first ;
+  while not Adoquery1.eof do
+  begin
+    listuk.Add(adoquery1.fieldbyname('ukrep').value) ;
+    Adoquery1.Next ;
+  end;
+  Adoquery1.close ;
+end;
+
+end.

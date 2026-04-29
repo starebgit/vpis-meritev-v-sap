@@ -1,0 +1,81 @@
+object Fukrepi: TFukrepi
+  Left = 0
+  Top = 0
+  Caption = 'Fukrepi'
+  ClientHeight = 412
+  ClientWidth = 852
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 852
+    Height = 57
+    Align = alTop
+    TabOrder = 0
+    object Button1: TButton
+      Left = 120
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'Vpis'
+      TabOrder = 0
+      OnClick = Button1Click
+    end
+    object Button2: TButton
+      Left = 272
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'Bri'#353'i'
+      TabOrder = 1
+      OnClick = Button2Click
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 57
+    Width = 852
+    Height = 355
+    Align = alClient
+    TabOrder = 1
+    object DBGrid1: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 850
+      Height = 353
+      Align = alClient
+      DataSource = DataSource1
+      Font.Charset = EASTEUROPE_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Microsoft Sans Serif'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+    end
+  end
+  object DataSource1: TDataSource
+    DataSet = ADOQuery1
+    Left = 208
+    Top = 169
+  end
+  object ADOQuery1: TADOQuery
+    Parameters = <>
+    Left = 304
+    Top = 169
+  end
+end

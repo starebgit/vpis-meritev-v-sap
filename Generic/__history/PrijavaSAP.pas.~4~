@@ -1,0 +1,71 @@
+unit PrijavaSAP;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Data.Win.ADODB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls;
+
+type
+  TFprijavaSAP = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    ADOQuery1: TADOQuery;
+    ADOQuery1ident: TAutoIncField;
+    ADOQuery1uporab: TStringField;
+    ADOQuery1sistem: TStringField;
+    ADOQuery1client: TStringField;
+    ADOQuery1streznik: TStringField;
+    ADOQuery1sysnnum: TSmallintField;
+    ADOQuery1pass: TStringField;
+    ADOQuery1jezik: TStringField;
+    ADOQuery1glavni: TStringField;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    Procedure prikaz ;
+  end;
+
+var
+  FprijavaSAP: TFprijavaSAP;
+
+implementation
+
+{$R *.dfm}
+
+uses VpisPrijava;
+
+procedure TFprijavaSAP.Button1Click(Sender: TObject);
+  var sistem,cli,applic,upo,ges,jezik : string ;
+      sisnum : Integer ;
+begin
+  FVpisprijava.Vpis(sistem,cli,applic,upo,ges,jezik,sisnum) ;
+  if sistem <> '' then
+  begin
+    Adoquery1.Append ;
+    Adoquery1uporab.value := upo ;
+    Adoquery1sistem.value := sistem ;
+    Adoquery1client.value := cli ;
+    Adoquery1streznik.value := applic ;
+    Adoquery1pass.value := ges ;
+    Adoquery1jezik.value := jezik ;
+    Adoquery1sysnnum.value := sisnum ;
+  end;
+
+end;
+
+Procedure TFPrijavaSAP.prikaz ;
+begin
+  Adoquery1.sql.clear ;
+  Adoquery1.sql.add('select * from prijava') ;
+  Adoquery1.open ;
+  ShowModal ;
+  Adoquery1.close ;
+end;
+
+end.

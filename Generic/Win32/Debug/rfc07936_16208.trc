@@ -1,0 +1,35 @@
+
+**** Trace file opened at 20210201 072440 Srednjeevropski standardni èas, by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=sl PASSWD=******* SYSNR=20 ASHOST=sapq01.egoproducts.com ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+Error in program 'SAPSpc': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=sapq01.egoproducts.com, GWSERV=sapgw20, SYSNR=20
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       hostname 'sapq01.egoproducts.com' unknown
+TIME        Mon Feb 01 07:24:40 2021
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -2
+MODULE      nixxhl.cpp
+LINE        193
+DETAIL      NiHLGetNodeAddr: hostname cached as unknown
+COUNTER     2
+
+
+**** Trace file opened at 20210201 072440 Srednjeevropski standardni èas, by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=sl PASSWD=******* SYSNR=20 ASHOST=sapq01.egoproducts.com ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+

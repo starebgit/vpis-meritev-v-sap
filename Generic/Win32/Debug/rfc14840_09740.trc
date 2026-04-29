@@ -1,0 +1,97 @@
+
+**** Trace file opened at 20220419 101504 Srednjeevropski poletni èas  , by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=SL PASSWD=******* SYSNR=20 ASHOST=10.0.2.159 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Tue Apr 19 10:15:06 2022
+Error in program 'SAPSpc': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.159, GWSERV=sapgw20, SYSNR=20
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.159:3320' not reached
+TIME        Tue Apr 19 10:15:06 2022
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.159:3320
+SYSTEM CALL connect
+ERRNO       10061
+ERRNO TEXT  WSAECONNREFUSED: Connection refused
+COUNTER     2
+
+
+**** Trace file opened at 20220419 101506 Srednjeevropski poletni èas  , by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=SL PASSWD=******* SYSNR=20 ASHOST=10.0.2.159 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Tue Apr 19 10:16:11 2022
+Error in program 'SAPSpc': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.159, GWSERV=sapgw20, SYSNR=20
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.159:3320' not reached
+TIME        Tue Apr 19 10:16:11 2022
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.159:3320
+SYSTEM CALL connect
+ERRNO       10061
+ERRNO TEXT  WSAECONNREFUSED: Connection refused
+COUNTER     3
+
+
+**** Trace file opened at 20220419 101611 Srednjeevropski poletni èas  , by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=SL PASSWD=******* SYSNR=20 ASHOST=10.0.2.159 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+>TS> Tue Apr 19 10:16:21 2022
+Error in program 'SAPSpc': ======> SAP_CMINIT3 : rc=20 > Connect to SAP gateway failed
+Connect_PM  GWHOST=10.0.2.159, GWSERV=sapgw20, SYSNR=20
+
+LOCATION    CPIC (TCP/IP) on local host
+ERROR       partner '10.0.2.159:3320' not reached
+TIME        Tue Apr 19 10:16:21 2022
+RELEASE     720
+COMPONENT   NI (network interface)
+VERSION     40
+RC          -10
+MODULE      nixxi.cpp
+LINE        3286
+DETAIL      NiPConnect2: 10.0.2.159:3320
+SYSTEM CALL connect
+ERRNO       10061
+ERRNO TEXT  WSAECONNREFUSED: Connection refused
+COUNTER     4
+
+
+**** Trace file opened at 20220419 101621 Srednjeevropski poletni èas  , by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=rsg_rfc_1 CLIENT=101 LANG=SL PASSWD=******* SYSNR=20 ASHOST=10.0.2.159 ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+

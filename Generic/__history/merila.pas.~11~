@@ -1,0 +1,77 @@
+unit merila;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Data.Win.ADODB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TFmerila = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    DataSource1: TDataSource;
+    ADOQuery1: TADOQuery;
+    Button1: TButton;
+    Button2: TButton;
+    ADOQuery1idmerila: TAutoIncField;
+    ADOQuery1red: TWordField;
+    ADOQuery1idpost: TWordField;
+    ADOQuery1stevilka: TStringField;
+    ADOQuery1naziv: TStringField;
+    ADOQuery1opis: TStringField;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    Procedure pokazi(adm : boolean) ;
+  end;
+
+var
+  Fmerila: TFmerila;
+
+implementation
+
+{$R *.dfm}
+
+uses Vpismerila;
+
+
+procedure TFmerila.Button1Click(Sender: TObject);
+  var red : integer ;
+      stev,naziv,opis : string ;
+begin
+  Adoquery1.Last ;
+  red := adoquery1.fieldByName('red').asinteger ;
+  FvpisMerila.vpis(red,stev,naziv,opis) ;
+  if red > 0  then
+  begin
+    Adoquery1.append ;
+    Adoquery1.fieldByname('red').value := red ;
+    Adoquery1.fieldByname('stevilka').value := stev ;
+    Adoquery1.fieldByname('naziv').value := naziv ;
+    Adoquery1.fieldByname('opis').value := opis ;
+    Adoquery1.post ;
+  end;
+end;
+
+procedure TFmerila.Button2Click(Sender: TObject);
+begin
+  Close ;
+end;
+
+Procedure TFMerila.pokazi(adm : boolean) ;
+begin
+  dbgrid1.readonly := not adm ;
+  button1.Enabled := adm ;
+  panel1.Color := $02DEDAC0 ;
+  Adoquery1.SQL.Clear ;
+  Adoquery1.SQL.Add('select * from merila order by red') ;
+  Adoquery1.Open ;
+  ShowModal ;
+end;
+
+end.

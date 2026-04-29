@@ -1,0 +1,57 @@
+object FIzborSarza: TFIzborSarza
+  Left = 0
+  Top = 0
+  Caption = 'FIzborSarza'
+  ClientHeight = 399
+  ClientWidth = 491
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 361
+    Height = 399
+    Align = alLeft
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+    ExplicitHeight = 300
+    object ListBox1: TListBox
+      Left = 80
+      Top = 56
+      Width = 193
+      Height = 297
+      ItemHeight = 18
+      TabOrder = 0
+    end
+  end
+  object Panel2: TPanel
+    Left = 361
+    Top = 0
+    Width = 130
+    Height = 399
+    Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -15
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+    ExplicitLeft = 392
+    ExplicitTop = 96
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+  end
+end

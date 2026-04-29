@@ -1,0 +1,21 @@
+
+**** Trace file opened at 20231123 075917 Srednjeevropski standardni èas, by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=AKDT_RFC CLIENT=101 LANG=SL PASSWD=******* SYSNR=10 ASHOST=sape4q.blanc-fischer.com ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+
+Error in program 'SAPSpc': ======> Ime ali geslo ni pravilno (Prosim ponovite prijavo)
+
+**** Trace file opened at 20231123 075917 Srednjeevropski standardni èas, by SAPSpc
+**** Versions SAP-REL 720,0,119 RFC-VER nU 3  MT-SL
+
+
+>>> RfcOpenEx ...
+ Got following connect_param string: 
+   USER=AKDT_RFC CLIENT=101 LANG=SL PASSWD=******* SYSNR=10 ASHOST=sape4q.blanc-fischer.com ICCE=1 GETSSO2=1 PCS=1 
+<<< RfcOpenEx failed
+

@@ -1,0 +1,64 @@
+unit VpisKode;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, sap;
+
+type
+  TFVpisKode = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Combo1: TComboBox;
+    Panel2: TPanel;
+    Button1: TButton;
+    procedure Edit1Exit(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+     Procedure Vpis ;
+  end;
+
+var
+  FVpisKode: TFVpisKode;
+
+implementation
+
+{$R *.dfm}
+
+uses sqlkode ;
+
+procedure TFVpisKode.Button1Click(Sender: TObject);
+  var kd ,srz : string ;
+begin
+  kd := edit1.Text ;
+  srz := combo1.Text ;
+  FSqlKode.Zapis(kd,srz) ;
+  FsqlKode.Prenoskar(srz) ;
+  edit1.Text := '' ;
+  combo1.Items.Clear ;
+end;
+
+procedure TFVpisKode.Edit1Exit(Sender: TObject);
+  var kd : string ;
+      dat : TdateTime ;
+      listsrz : TstringList ;
+begin
+  kd := edit1.Text ;
+  dat := StrTodate('01.01.2015') ;
+  listsrz := TstringList.Create ;
+  Fsap.Getkonsarza(kd,dat,listsrz) ;
+  Combo1.Items := listsrz ;
+  Listsrz.Free ;
+end;
+
+Procedure TFVpisKode.Vpis ;
+begin
+  showModal ;
+end;
+
+end.

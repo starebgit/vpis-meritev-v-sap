@@ -1,0 +1,47 @@
+unit VpisUkrep;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TFvpisUkrep = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    ListBox1: TListBox;
+    Edit1: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Button1: TButton;
+  private
+    { Private declarations }
+  public
+    Function izbor : string ;
+  end;
+
+var
+  FvpisUkrep: TFvpisUkrep;
+
+implementation
+
+{$R *.dfm}
+
+
+Function TfVpisUkrep.izbor : string ;
+  var ii : integer ;
+      listuk : TstringList ;
+begin
+  listuk := TstringList.create ;
+  ShowModal ;
+  listbox1.Items := Listuk ;
+  listuk.Free ;
+  if modalResult = mrOk then
+  begin
+    ii := listbox1.ItemIndex ;
+    if ii > 0 then  result := Listbox1.Items[ii] else result := '' ;
+  end else result := '' ;
+end;
+
+end.
