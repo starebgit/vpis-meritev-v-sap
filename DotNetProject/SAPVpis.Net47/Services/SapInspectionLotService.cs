@@ -49,13 +49,13 @@ namespace SAPVpis.Net47.Services
             for (var row = 0; row < table.RowCount; row++)
             {
                 table.CurrentIndex = row;
-                var status = GetStringSafe(table, "SYS_STATUS", "SYS_ST");
+                var status = GetString(table, "SYS_STATUS");
                 statusCodes.Add(status);
 
-                if (string.Equals(status, "DOPS", StringComparison.OrdinalIgnoreCase)) score++;
-                if (string.Equals(status, "LANS", StringComparison.OrdinalIgnoreCase)) score++;
-                if (string.Equals(status, "KAKK", StringComparison.OrdinalIgnoreCase)) score++;
-                if (string.Equals(status, "SERS", StringComparison.OrdinalIgnoreCase)) score--;
+                if (string.Equals(status, "I0205", StringComparison.OrdinalIgnoreCase)) score++; // DOPS
+                if (string.Equals(status, "I0002", StringComparison.OrdinalIgnoreCase)) score++; // LANS
+                if (string.Equals(status, "I0206", StringComparison.OrdinalIgnoreCase)) score++; // KAKK
+                if (string.Equals(status, "I0216", StringComparison.OrdinalIgnoreCase)) score--; // short-term close (SERS-equivalent)
             }
 
             var open = score == 3;
@@ -85,26 +85,6 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcTable table, string field)
         {
             return (table.GetString(field) ?? string.Empty).Trim();
-        }
-
-        private static string GetStringSafe(IRfcTable table, params string[] fields)
-        {
-            foreach (var field in fields)
-            {
-                try
-                {
-                    var value = GetString(table, field);
-                    if (!string.IsNullOrWhiteSpace(value))
-                    {
-                        return value;
-                    }
-                }
-                catch
-                {
-                }
-            }
-
-            return string.Empty;
         }
 
         private static string NormalizeInspectionLot(string lot)
