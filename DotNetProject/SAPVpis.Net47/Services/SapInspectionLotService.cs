@@ -49,7 +49,7 @@ namespace SAPVpis.Net47.Services
             for (var row = 0; row < table.RowCount; row++)
             {
                 table.CurrentIndex = row;
-                var status = GetString(table, "SYS_ST");
+                var status = GetStringSafe(table, "SYS_STATUS", "SYS_ST");
                 statusCodes.Add(status);
 
                 if (string.Equals(status, "DOPS", StringComparison.OrdinalIgnoreCase)) score++;
@@ -85,6 +85,26 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcTable table, string field)
         {
             return (table.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string GetStringSafe(IRfcTable table, params string[] fields)
+        {
+            foreach (var field in fields)
+            {
+                try
+                {
+                    var value = GetString(table, field);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return string.Empty;
         }
 
         private static string NormalizeInspectionLot(string lot)
