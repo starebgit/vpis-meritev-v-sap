@@ -32,15 +32,20 @@ namespace SAPVpis.Net47.Services
 
         private static RfcConfigParameters BuildParameters(string destinationName)
         {
+            var sapLogin = SapLoginRepository.GetDefaultLogin();
             var parameters = new RfcConfigParameters();
 
             parameters[RfcConfigParameters.Name] = destinationName;
-            parameters[RfcConfigParameters.AppServerHost] = ReadRequired("sap.ashost");
-            parameters[RfcConfigParameters.SystemNumber] = ReadRequired("sap.sysnr");
-            parameters[RfcConfigParameters.Client] = ReadRequired("sap.client");
-            parameters[RfcConfigParameters.User] = ReadRequired("sap.user");
-            parameters[RfcConfigParameters.Password] = ReadRequired("sap.passwd");
-            parameters[RfcConfigParameters.Language] = ReadRequired("sap.lang");
+            parameters[RfcConfigParameters.AppServerHost] = sapLogin.ApplicationServer;
+            parameters[RfcConfigParameters.SystemNumber] = sapLogin.SystemNumber;
+            parameters[RfcConfigParameters.Client] = sapLogin.Client;
+            parameters[RfcConfigParameters.User] = sapLogin.User;
+            parameters[RfcConfigParameters.Password] = sapLogin.Password;
+            parameters[RfcConfigParameters.Language] = sapLogin.Language;
+            if (!string.IsNullOrWhiteSpace(sapLogin.System))
+            {
+                parameters[RfcConfigParameters.SystemID] = sapLogin.System;
+            }
 
             AddOptional(parameters, RfcConfigParameters.PoolSize, "sap.pool_size");
             AddOptional(parameters, RfcConfigParameters.PeakConnectionsLimit, "sap.peak_connections_limit");
