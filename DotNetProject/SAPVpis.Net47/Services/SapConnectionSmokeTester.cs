@@ -29,6 +29,11 @@ namespace SAPVpis.Net47.Services
                 var function = repository.CreateFunction(smokeFunctionName);
                 function.Invoke(destination);
 
+                var lotNumber = ReadInspectionLot();
+                var lotLanguage = ReadLotLanguage();
+                var lotService = new SapInspectionLotService();
+                var lotResult = lotService.CheckIsOpen(destination, lotNumber, lotLanguage);
+
                 return new SapTrialResult
                 {
                     Success = true,
@@ -36,7 +41,8 @@ namespace SAPVpis.Net47.Services
                         "SAP trial passed. Destination '{0}' pinged and smoke RFC '{1}' executed.",
                         destinationName,
                         smokeFunctionName) + Environment.NewLine +
-                        string.Format("Plant rule applied: user '{0}' -> plant '{1}'.", login.User, plant),
+                        string.Format("Plant rule applied: user '{0}' -> plant '{1}'.", login.User, plant) + Environment.NewLine +
+                        string.Format("Step 5 lot check (BAPI_INSPLOT_GETDETAIL, LANGUAGE={0}): {1}", lotLanguage, lotResult.Message),
                     TimestampUtc = timestamp
                 };
             }
@@ -72,6 +78,18 @@ namespace SAPVpis.Net47.Services
             }
 
             return functionName.Trim();
+        }
+
+        private static string ReadInspectionLot()
+        {
+            var lot = ConfigurationManager.AppSettings["sap.step5.lot"];
+            return string.IsNullOrWhiteSpace(lot) ? "30002292667" : lot.Trim();
+        }
+
+        private static string ReadLotLanguage()
+        {
+            var language = ConfigurationManager.AppSettings["sap.step5.language"];
+            return string.IsNullOrWhiteSpace(language) ? "5" : language.Trim();
         }
 
         private static void EnsureDestinationConfigurationRegistered(string destinationName)
