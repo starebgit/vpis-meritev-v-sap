@@ -23,6 +23,8 @@ namespace SAPVpis.Net47.Services
                 destination.Ping();
 
                 var smokeFunctionName = ReadSmokeFunctionName();
+                var login = SapLoginRepository.GetDefaultLogin();
+                var plant = SapLoginRepository.ResolvePlant(login.User);
                 var repository = destination.Repository;
                 var function = repository.CreateFunction(smokeFunctionName);
                 function.Invoke(destination);
@@ -33,7 +35,8 @@ namespace SAPVpis.Net47.Services
                     Message = string.Format(
                         "SAP trial passed. Destination '{0}' pinged and smoke RFC '{1}' executed.",
                         destinationName,
-                        smokeFunctionName),
+                        smokeFunctionName) + Environment.NewLine +
+                        string.Format("Plant rule applied: user '{0}' -> plant '{1}'.", login.User, plant),
                     TimestampUtc = timestamp
                 };
             }
