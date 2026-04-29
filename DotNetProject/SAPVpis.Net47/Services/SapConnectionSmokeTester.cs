@@ -42,7 +42,8 @@ namespace SAPVpis.Net47.Services
                         destinationName,
                         smokeFunctionName) + Environment.NewLine +
                         string.Format("Plant rule applied: user '{0}' -> plant '{1}'.", login.User, plant) + Environment.NewLine +
-                        string.Format("Step 5 lot check (BAPI_INSPLOT_GETDETAIL, LANGUAGE={0}): {1}", lotLanguage, lotResult.Message),
+                        string.Format("Step 5 lot check (BAPI_INSPLOT_GETDETAIL, LANGUAGE={0}): {1}", lotLanguage, lotResult.Message) + Environment.NewLine +
+                        string.Format("Step 5 diagnostics: {0}", lotResult.Diagnostics),
                     TimestampUtc = timestamp
                 };
             }
