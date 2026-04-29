@@ -25,9 +25,9 @@ namespace SAPVpis.Net47.Services
             function.Invoke(destination);
 
             var returnStruct = function.GetStructure("RETURN");
-            var returnType = GetStringByKnownField(returnStruct, "TYPE");
-            var returnCode = GetStringByKnownField(returnStruct, "NUMBER", "CODE");
-            var returnMessage = GetStringByKnownField(returnStruct, "MESSAGE");
+            var returnType = GetString(returnStruct, "TYPE");
+            var returnCode = GetString(returnStruct, "NUMBER");
+            var returnMessage = GetString(returnStruct, "MESSAGE");
 
             if (string.Equals(returnType, "E", StringComparison.OrdinalIgnoreCase)
                 || string.Equals(returnType, "A", StringComparison.OrdinalIgnoreCase))
@@ -49,7 +49,7 @@ namespace SAPVpis.Net47.Services
             for (var row = 0; row < table.RowCount; row++)
             {
                 table.CurrentIndex = row;
-                var status = GetStringByKnownField(table, "SYS_STATUS", "SYS_ST");
+                var status = GetString(table, "SYS_ST");
                 statusCodes.Add(status);
 
                 if (string.Equals(status, "DOPS", StringComparison.OrdinalIgnoreCase)) score++;
@@ -80,35 +80,6 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcStructure structure, string field)
         {
             return (structure.GetString(field) ?? string.Empty).Trim();
-        }
-
-        private static string GetStringByKnownField(IRfcStructure structure, params string[] candidateFields)
-        {
-            var field = FindExistingField(structure.Metadata, candidateFields);
-            return string.IsNullOrWhiteSpace(field) ? string.Empty : GetString(structure, field);
-        }
-
-        private static string GetStringByKnownField(IRfcTable table, params string[] candidateFields)
-        {
-            var field = FindExistingField(table.Metadata.LineType, candidateFields);
-            return string.IsNullOrWhiteSpace(field) ? string.Empty : GetString(table, field);
-        }
-
-        private static string FindExistingField(RfcContainerMetadata metadata, params string[] candidateFields)
-        {
-            for (var i = 0; i < metadata.FieldCount; i++)
-            {
-                var existingName = metadata[i].Name;
-                foreach (var candidate in candidateFields)
-                {
-                    if (string.Equals(existingName, candidate, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return existingName;
-                    }
-                }
-            }
-
-            return string.Empty;
         }
 
         private static string GetString(IRfcTable table, string field)
