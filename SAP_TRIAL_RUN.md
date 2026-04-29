@@ -13,7 +13,7 @@ The project resolves SAP NCo references from:
 
 ## 2) Required SAP config
 
-Edit `DotNetProject/SAPVpis.Net47/App.config` and set these values:
+Edit `SAPVpis.Net47/App.config` and set these values:
 
 - `sap.ashost`
 - `sap.sysnr`
@@ -32,7 +32,7 @@ Optional:
 
 ## 3) Run instructions
 
-1. Open `DotNetProject/SAPVpis.Net47/SAPVpis.Net47.csproj` in Visual Studio (Developer Pack for .NET Framework 4.7 installed).
+1. Open `SAPVpis.Net47/SAPVpis.Net47.csproj` in Visual Studio (Developer Pack for .NET Framework 4.7 installed).
 2. Build in `Debug|AnyCPU`.
 3. Start app and click **Run SAP Trial**.
 
