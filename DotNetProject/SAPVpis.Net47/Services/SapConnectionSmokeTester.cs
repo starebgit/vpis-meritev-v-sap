@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using SAP.Middleware.Connector;
 
@@ -45,11 +46,13 @@ namespace SAPVpis.Net47.Services
                 var operationResult = operationService.ReadOperations(destination, lotNumber);
                 var step6PostingEnabled = ReadStep6PostingEnabled();
                 string step6InspCharSource;
-                var step6InspChar = ResolveStep6InspChar(destination, lotNumber, "0010", out step6InspCharSource);
+                string step6InspCharCandidates;
+                var step6InspChar = ResolveStep6InspChar(destination, lotNumber, "0010", out step6InspCharSource, out step6InspCharCandidates);
                 var step6PostMessage = string.Format(
-                    "Phase 1 preview (no posting). INSPCHAR={0} (source={1})",
+                    "Phase 1 preview (no posting). INSPCHAR={0} (source={1}, candidates={2})",
                     string.IsNullOrWhiteSpace(step6InspChar) ? "<empty>" : step6InspChar,
-                    step6InspCharSource);
+                    step6InspCharSource,
+                    step6InspCharCandidates);
                 if (step6PostingEnabled)
                 {
                     var resultValue = ReadStep6ResultValue();
@@ -70,6 +73,7 @@ namespace SAPVpis.Net47.Services
                         string.Format("Step 5 operations (BAPI_INSPLOT_GETOPERATIONS): {0}", operationResult.Message) + Environment.NewLine +
                         string.Format("Step 6 mode: {0}", step6PostingEnabled ? "POST enabled (phase 2)" : "PREVIEW only - posting disabled (phase 1)") + Environment.NewLine +
                         string.Format("Step 6 char source: {0}", step6InspCharSource) + Environment.NewLine +
+                        string.Format("Step 6 char candidates: {0}", step6InspCharCandidates) + Environment.NewLine +
                         string.Format("Step 6 posting result: {0}", step6PostMessage),
                     TimestampUtc = timestamp
                 };
@@ -151,9 +155,10 @@ namespace SAPVpis.Net47.Services
                    || string.Equals(raw.Trim(), "yes", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static string ResolveStep6InspChar(RfcDestination destination, string lotNumber, string inspOper, out string source)
+        private static string ResolveStep6InspChar(RfcDestination destination, string lotNumber, string inspOper, out string source, out string candidates)
         {
             var configured = ReadStep6InspCharFallback();
+            candidates = "<none>";
             try
             {
                 var normalizedLot = NormalizeInspectionLot(lotNumber);
@@ -170,28 +175,60 @@ namespace SAPVpis.Net47.Services
                 function.SetValue("READ_CHAR_REQUIREMENTS", "X");
                 function.Invoke(destination);
 
-                var chars = function.GetTable("INSPCHAR");
-                if (chars.RowCount == 0)
+                var resolved = TryFindInspCharFromTable(function, "INSPCHAR", out candidates);
+                if (!string.IsNullOrWhiteSpace(resolved))
                 {
-                    source = "fallback:no-inspchar-rows";
-                    return configured;
+                    source = "sap:INSPCHAR";
+                    return resolved;
                 }
 
-                chars.CurrentIndex = 0;
-                var inspChar = GetString(chars, "INSPCHAR");
-                if (string.IsNullOrWhiteSpace(inspChar))
+                resolved = TryFindInspCharFromTable(function, "CHAR_REQUIREMENTS", out candidates);
+                if (!string.IsNullOrWhiteSpace(resolved))
                 {
-                    source = "fallback:first-inspchar-empty";
-                    return configured;
+                    source = "sap:CHAR_REQUIREMENTS";
+                    return resolved;
                 }
 
-                source = "sap:inspchar[0]";
-                return inspChar;
+                source = "fallback:no-char-in-bapi";
+                return configured;
+            }
+            catch (Exception ex)
+            {
+                source = "fallback:exception:" + ex.GetType().Name + ":" + ex.Message;
+                return configured;
+            }
+        }
+
+        private static string TryFindInspCharFromTable(IRfcFunction function, string tableName, out string candidates)
+        {
+            candidates = "<none>";
+            try
+            {
+                var table = function.GetTable(tableName);
+                if (table.RowCount == 0)
+                {
+                    candidates = "<none>";
+                    return string.Empty;
+                }
+
+                var found = new List<string>();
+                for (var i = 0; i < table.RowCount; i++)
+                {
+                    table.CurrentIndex = i;
+                    var value = GetStringSafe(table, "INSPCHAR", "CHAR_NO", "CHARACTERISTIC", "MIC_NO");
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        found.Add(value);
+                    }
+                }
+
+                candidates = found.Count == 0 ? "<none>" : string.Join(",", found.ToArray());
+                return found.Count == 0 ? string.Empty : found[0];
             }
             catch
             {
-                source = "fallback:exception";
-                return configured;
+                candidates = "<unavailable>";
+                return string.Empty;
             }
         }
 
@@ -210,6 +247,26 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcTable table, string field)
         {
             return (table.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string GetStringSafe(IRfcTable table, params string[] fields)
+        {
+            foreach (var field in fields)
+            {
+                try
+                {
+                    var value = GetString(table, field);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return string.Empty;
         }
 
         private static string NormalizeInspectionLot(string lot)
