@@ -22,6 +22,12 @@ namespace SAPVpis.Net47.Services
             f.SetValue("INSPLOT", lot);
             f.SetValue("INSPOPER", op);
 
+            var handheld = TryResolveHandheldApplication(destination, lot, op);
+            if (!string.IsNullOrWhiteSpace(handheld))
+            {
+                f.SetValue("HANDHELD_APPLICATION", handheld);
+            }
+
             var charResults = f.GetTable("CHAR_RESULTS");
             charResults.Append();
             charResults.SetValue("INSPLOT", lot);
@@ -57,19 +63,68 @@ namespace SAPVpis.Net47.Services
 
             if (hasError)
             {
-                return new PostResult { Success = false, Message = "RecordResults failed: " + firstMsg };
+                return new PostResult { Success = false, Message = "RecordResults failed: " + firstMsg + " | handheld=" + (handheld == string.Empty ? "<empty>" : handheld) };
             }
 
             var commit = destination.Repository.CreateFunction("BAPI_TRANSACTION_COMMIT");
             commit.SetValue("WAIT", "X");
             commit.Invoke(destination);
 
-            return new PostResult { Success = true, Message = "RecordResults+Commit success. First return: " + firstMsg };
+            return new PostResult { Success = true, Message = "RecordResults+Commit success. First return: " + firstMsg + " | handheld=" + (handheld == string.Empty ? "<empty>" : handheld) };
+        }
+
+        private static string TryResolveHandheldApplication(RfcDestination destination, string lot, string op)
+        {
+            try
+            {
+                var detail = destination.Repository.CreateFunction("BAPI_INSPOPER_GETDETAIL");
+                detail.SetValue("INSPLOT", lot);
+                detail.SetValue("INSPOPER", op);
+                detail.SetValue("READ_INSPPOINTS", "X");
+                detail.Invoke(destination);
+
+                var points = detail.GetTable("INSPPOINTS");
+                if (points.RowCount == 0)
+                {
+                    return string.Empty;
+                }
+
+                points.CurrentIndex = 0;
+                return GetStringSafe(points,
+                    "HANDHELD_APPLICATION",
+                    "HANDHELD_APPL",
+                    "HANDHELDAPP",
+                    "APP_ID");
+            }
+            catch
+            {
+                return string.Empty;
+            }
         }
 
         private static string GetString(IRfcTable table, string field)
         {
             return (table.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string GetStringSafe(IRfcTable table, params string[] fields)
+        {
+            foreach (var field in fields)
+            {
+                try
+                {
+                    var value = GetString(table, field);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return string.Empty;
         }
 
         private static string NormalizeInspectionLot(string lot)

@@ -44,13 +44,15 @@ namespace SAPVpis.Net47.Services
                 var operationService = new SapInspectionOperationService();
                 var operationResult = operationService.ReadOperations(destination, lotNumber);
                 var step6PostingEnabled = ReadStep6PostingEnabled();
-                var step6PostMessage = "Phase 1 preview (no posting).";
+                var step6InspChar = ResolveStep6InspChar(destination, lotNumber, "0010");
+                var step6PostMessage = string.Format(
+                    "Phase 1 preview (no posting). INSPCHAR={0}",
+                    string.IsNullOrWhiteSpace(step6InspChar) ? "<empty>" : step6InspChar);
                 if (step6PostingEnabled)
                 {
-                    var inspChar = ReadStep6InspChar();
                     var resultValue = ReadStep6ResultValue();
                     var postService = new SapInspectionRecordPostService();
-                    var postResult = postService.PostSingleResult(destination, lotNumber, "0010", inspChar, resultValue);
+                    var postResult = postService.PostSingleResult(destination, lotNumber, "0010", step6InspChar, resultValue);
                     step6PostMessage = postResult.Success ? postResult.Message : "ERROR: " + postResult.Message;
                 }
 
@@ -146,7 +148,41 @@ namespace SAPVpis.Net47.Services
                    || string.Equals(raw.Trim(), "yes", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static string ReadStep6InspChar()
+        private static string ResolveStep6InspChar(RfcDestination destination, string lotNumber, string inspOper)
+        {
+            var configured = ReadStep6InspCharFallback();
+            try
+            {
+                var normalizedLot = NormalizeInspectionLot(lotNumber);
+                var op = (inspOper ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(op))
+                {
+                    return configured;
+                }
+
+                var function = destination.Repository.CreateFunction("BAPI_INSPOPER_GETDETAIL");
+                function.SetValue("INSPLOT", normalizedLot);
+                function.SetValue("INSPOPER", op);
+                function.SetValue("READ_CHAR_REQUIREMENTS", "X");
+                function.Invoke(destination);
+
+                var chars = function.GetTable("INSPCHAR");
+                if (chars.RowCount == 0)
+                {
+                    return configured;
+                }
+
+                chars.CurrentIndex = 0;
+                var inspChar = GetString(chars, "INSPCHAR");
+                return string.IsNullOrWhiteSpace(inspChar) ? configured : inspChar;
+            }
+            catch
+            {
+                return configured;
+            }
+        }
+
+        private static string ReadStep6InspCharFallback()
         {
             var raw = ConfigurationManager.AppSettings["sap.step6.inspchar"];
             return string.IsNullOrWhiteSpace(raw) ? "0001" : raw.Trim();
@@ -156,6 +192,17 @@ namespace SAPVpis.Net47.Services
         {
             var raw = ConfigurationManager.AppSettings["sap.step6.result_value"];
             return string.IsNullOrWhiteSpace(raw) ? "0" : raw.Trim();
+        }
+
+        private static string GetString(IRfcTable table, string field)
+        {
+            return (table.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string NormalizeInspectionLot(string lot)
+        {
+            var value = (lot ?? string.Empty).Trim();
+            return value.Length >= 12 ? value : value.PadLeft(12, '0');
         }
 
         private static void EnsureDestinationConfigurationRegistered(string destinationName)
