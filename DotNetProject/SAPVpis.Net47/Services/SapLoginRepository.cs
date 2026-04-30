@@ -87,6 +87,11 @@ namespace SAPVpis.Net47.Services
             return value.Trim();
         }
 
+        internal static string NormalizeToSqlClientConnectionStringForSharedUsage(string raw)
+        {
+            return NormalizeToSqlClientConnectionString(raw);
+        }
+
         private static string NormalizeToSqlClientConnectionString(string raw)
         {
             var source = new DbConnectionStringBuilder { ConnectionString = raw };

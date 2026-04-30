@@ -4,8 +4,9 @@
 Port Delphi SAPVpis behavior to .NET in small, testable slices with clear completion criteria.
 
 ## Current status summary
-- ✅ Completed: Steps 1-4
-- ⏳ Remaining: Steps 5-9
+- ✅ Completed: Steps 1-6
+- ⏳ In progress: Step 7
+- ⏳ Remaining after Step 7: Steps 8-9
 
 ---
 
@@ -54,7 +55,7 @@ Port Delphi SAPVpis behavior to .NET in small, testable slices with clear comple
 **Status**
 - ✅ Done.
 
-## Step 5 - Read-only business RFC parity ⏳
+## Step 5 - Read-only business RFC parity ✅
 **Scope**
 - Port Delphi read path around `BAPI_INSPLOT_GETDETAIL`.
 
@@ -64,9 +65,12 @@ Port Delphi SAPVpis behavior to .NET in small, testable slices with clear comple
 - Manual test with known sample passes.
 
 **Status**
-- ⏳ Not started.
+- ✅ Done (implemented and manually verified in trial output):
+  - `BAPI_INSPLOT_GETDETAIL` lot/status read path and open-state scoring.
+  - `BAPI_INSPLOT_GETOPERATIONS` operation list read path.
+  - Step 5 status/diagnostic visibility in UI trial output.
 
-## Step 6 - Write RFC parity (`RECORDRESULTS` + `COMMIT`) ⏳
+## Step 6 - Write RFC parity (`RECORDRESULTS` + `COMMIT`) ✅
 **Scope**
 - Port payload shaping for `BAPI_INSPOPER_RECORDRESULTS`.
 - Port commit behavior via `BAPI_TRANSACTION_COMMIT`.
@@ -77,7 +81,9 @@ Port Delphi SAPVpis behavior to .NET in small, testable slices with clear comple
 - Manual end-to-end write test passes.
 
 **Status**
-- ⏳ Not started.
+- ✅ Done:
+  - Posting + commit flow implemented and validated against Delphi target behavior for current business flow.
+  - Characteristic resolution and Delphi-compatible posting mode are in place for Step 6 execution.
 
 ## Step 7 - Local data integration parity ⏳
 **Scope**
@@ -88,7 +94,9 @@ Port Delphi SAPVpis behavior to .NET in small, testable slices with clear comple
 - Error handling mirrors Delphi flow.
 
 **Status**
-- ⏳ Not started.
+- ⏳ In progress:
+  - Added optional local SQL snapshot logging of trial outcomes (`dotnet_sap_trial_log`) to support local-data integration validation.
+  - Full Delphi table-level parity mapping still pending.
 
 ## Step 8 - UI workflow parity ⏳
 **Scope**

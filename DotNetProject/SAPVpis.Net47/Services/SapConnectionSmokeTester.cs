@@ -62,7 +62,7 @@ namespace SAPVpis.Net47.Services
                     step6PostMessage = postResult.Success ? postResult.Message : "ERROR: " + postResult.Message;
                 }
 
-                return new SapTrialResult
+                var result = new SapTrialResult
                 {
                     Success = true,
                     Message = string.Format(
@@ -78,16 +78,38 @@ namespace SAPVpis.Net47.Services
                         string.Format("Step 6 posting result: {0}", step6PostMessage),
                     TimestampUtc = timestamp
                 };
+                SapLocalIntegrationService.SaveTrialSnapshot(destinationName, result.Success, result.Message, result.TimestampUtc);
+                return result;
             }
             catch (Exception ex)
             {
-                return new SapTrialResult
+                var result = new SapTrialResult
                 {
                     Success = false,
                     Message = ex.Message,
                     TimestampUtc = timestamp
                 };
+                SapLocalIntegrationService.SaveTrialSnapshot(destinationName, result.Success, result.Message, result.TimestampUtc);
+                return result;
             }
+        }
+
+        private static RfcConfigParameters BuildParameters(SapLoginRepository.SapLoginRow login, string destinationName)
+        {
+            var parameters = new RfcConfigParameters();
+            parameters[RfcConfigParameters.Name] = destinationName;
+            parameters[RfcConfigParameters.AppServerHost] = login.ApplicationServer;
+            parameters[RfcConfigParameters.SystemNumber] = login.SystemNumber;
+            parameters[RfcConfigParameters.Client] = login.Client;
+            parameters[RfcConfigParameters.User] = login.User;
+            parameters[RfcConfigParameters.Password] = login.Password;
+            parameters[RfcConfigParameters.Language] = login.Language;
+            if (!string.IsNullOrWhiteSpace(login.System))
+            {
+                parameters[RfcConfigParameters.SystemID] = login.System;
+            }
+
+            return parameters;
         }
 
         private static RfcConfigParameters BuildParameters(SapLoginRepository.SapLoginRow login, string destinationName)
