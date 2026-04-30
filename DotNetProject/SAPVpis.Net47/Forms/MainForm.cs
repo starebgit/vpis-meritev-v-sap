@@ -7,6 +7,7 @@ namespace SAPVpis.Net47.Forms
     public class MainForm : Form
     {
         private readonly Button _btnSapTrial;
+        private readonly Button _btnSapTrialE4q;
         private readonly TextBox _txtStatus;
 
         public MainForm()
@@ -24,6 +25,15 @@ namespace SAPVpis.Net47.Forms
             };
             _btnSapTrial.Click += BtnSapTrialOnClick;
 
+            _btnSapTrialE4q = new Button
+            {
+                Text = "Run E4Q Trial",
+                Left = 180,
+                Top = 20,
+                Width = 140,
+            };
+            _btnSapTrialE4q.Click += BtnSapTrialE4qOnClick;
+
             _txtStatus = new TextBox
             {
                 Left = 20,
@@ -36,6 +46,7 @@ namespace SAPVpis.Net47.Forms
             };
 
             Controls.Add(_btnSapTrial);
+            Controls.Add(_btnSapTrialE4q);
             Controls.Add(_txtStatus);
         }
 
@@ -45,6 +56,14 @@ namespace SAPVpis.Net47.Forms
             _txtStatus.Text = result.Success
                 ? "SAP trial passed." + Environment.NewLine + result.Message
                 : "SAP trial failed." + Environment.NewLine + result.Message;
+        }
+
+        private void BtnSapTrialE4qOnClick(object sender, EventArgs e)
+        {
+            var result = SapConnectionSmokeTester.RunTrialForSystem("E4Q");
+            _txtStatus.Text = result.Success
+                ? "E4Q trial passed." + Environment.NewLine + result.Message
+                : "E4Q trial failed." + Environment.NewLine + result.Message;
         }
     }
 }
