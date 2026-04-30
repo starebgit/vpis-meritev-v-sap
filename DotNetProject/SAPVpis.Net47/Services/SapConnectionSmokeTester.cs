@@ -56,8 +56,9 @@ namespace SAPVpis.Net47.Services
                 if (step6PostingEnabled)
                 {
                     var resultValue = ReadStep6ResultValue();
+                    var step6Mode = ReadStep6Mode();
                     var postService = new SapInspectionRecordPostService();
-                    var postResult = postService.PostSingleResult(destination, lotNumber, "0010", step6InspChar, resultValue);
+                    var postResult = postService.PostSingleResult(destination, lotNumber, "0010", step6InspChar, resultValue, step6Mode);
                     step6PostMessage = postResult.Success ? postResult.Message : "ERROR: " + postResult.Message;
                 }
 
@@ -242,6 +243,12 @@ namespace SAPVpis.Net47.Services
         {
             var raw = ConfigurationManager.AppSettings["sap.step6.result_value"];
             return string.IsNullOrWhiteSpace(raw) ? "0" : raw.Trim();
+        }
+
+        private static string ReadStep6Mode()
+        {
+            var raw = ConfigurationManager.AppSettings["sap.step6.mode"];
+            return string.IsNullOrWhiteSpace(raw) ? "DELPHI" : raw.Trim();
         }
 
         private static string GetString(IRfcTable table, string field)

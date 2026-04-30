@@ -12,18 +12,54 @@ namespace SAPVpis.Net47.Services
             public string Message { get; set; }
         }
 
-        public PostResult PostSingleResult(RfcDestination destination, string lotNumber, string inspOper, string inspChar, string resultValue)
+        public PostResult PostSingleResult(RfcDestination destination, string lotNumber, string inspOper, string inspChar, string resultValue, string mode)
         {
             var lot = NormalizeInspectionLot(lotNumber);
             var op = (inspOper ?? string.Empty).Trim();
             var chr = (inspChar ?? string.Empty).Trim();
             var val = (resultValue ?? string.Empty).Trim();
+            var handheld = TryResolveHandheldApplication(destination, lot, op);
+            var normalizedMode = (mode ?? string.Empty).Trim().ToUpperInvariant();
 
+            var preferCharCloseOnly = normalizedMode == "DELPHI" || normalizedMode == "CHAR_CLOSE";
+            var firstAttempt = ExecuteRecordResults(destination, lot, op, chr, val, handheld, includeSingleResult: !preferCharCloseOnly);
+            if (!firstAttempt.HasError)
+            {
+                Commit(destination);
+                return new PostResult
+                {
+                    Success = true, Message = "RecordResults+Commit success. requestedMode=" + EmptyAsToken(normalizedMode) + " | " + firstAttempt.Message
+                };
+            }
+
+            if (ContainsResultsCannotBeEntered(firstAttempt.FirstMessage) || normalizedMode == "AUTO")
+            {
+                var retryAttempt = ExecuteRecordResults(destination, lot, op, chr, val, handheld, includeSingleResult: preferCharCloseOnly);
+                if (!retryAttempt.HasError)
+                {
+                    Commit(destination);
+                    return new PostResult
+                    {
+                        Success = true, Message = "RecordResults+Commit success (retry). requestedMode=" + EmptyAsToken(normalizedMode) + " | firstAttempt=" + firstAttempt.FirstMessage + " | retry=" + retryAttempt.Message
+                    };
+                }
+
+                return new PostResult
+                {
+                    Success = false,
+                    Message = "RecordResults failed in both modes. firstAttempt=" + firstAttempt.Message + " | retryAttempt=" + retryAttempt.Message
+                };
+            }
+
+            return new PostResult { Success = false, Message = "RecordResults failed: " + firstAttempt.Message };
+        }
+
+        private static AttemptResult ExecuteRecordResults(RfcDestination destination, string lot, string op, string chr, string val, string handheld, bool includeSingleResult)
+        {
             var f = destination.Repository.CreateFunction("BAPI_INSPOPER_RECORDRESULTS");
             f.SetValue("INSPLOT", lot);
             f.SetValue("INSPOPER", op);
 
-            var handheld = TryResolveHandheldApplication(destination, lot, op);
             if (!string.IsNullOrWhiteSpace(handheld))
             {
                 f.SetValue("HANDHELD_APPLICATION", handheld);
@@ -37,15 +73,18 @@ namespace SAPVpis.Net47.Services
             charResults.SetValue("CLOSED", "X");
             charResults.SetValue("EVALUATED", "X");
 
-            var single = f.GetTable("SINGLE_RESULTS");
-            single.Append();
-            single.SetValue("INSPLOT", lot);
-            single.SetValue("INSPOPER", op);
-            single.SetValue("INSPCHAR", chr);
-            single.SetValue("INSPSAMPLE", "000001");
-            single.SetValue("RES_NO", "0001");
-            single.SetValue("RES_ATTR", "X");
-            single.SetValue("RES_VALUE", val);
+            if (includeSingleResult)
+            {
+                var single = f.GetTable("SINGLE_RESULTS");
+                single.Append();
+                single.SetValue("INSPLOT", lot);
+                single.SetValue("INSPOPER", op);
+                single.SetValue("INSPCHAR", chr);
+                single.SetValue("INSPSAMPLE", "000001");
+                single.SetValue("RES_NO", "0001");
+                single.SetValue("RES_ATTR", "X");
+                single.SetValue("RES_VALUE", val);
+            }
 
             f.Invoke(destination);
 
@@ -74,24 +113,26 @@ namespace SAPVpis.Net47.Services
                 returnRows.Count);
             var debugReturns = returnRows.Count == 0 ? "<none>" : string.Join(" || ", returnRows.ToArray());
 
-            if (hasError)
+            return new AttemptResult
             {
-                return new PostResult
-                {
-                    Success = false,
-                    Message = "RecordResults failed: " + firstMsg + " | " + debugContext + " | returns=" + debugReturns
-                };
-            }
-
+                HasError = hasError,
+                FirstMessage = firstMsg,
+                Message = string.Format("mode={0} | first={1} | {2} | returns={3}", includeSingleResult ? "single-result" : "char-close-only", firstMsg, debugContext, debugReturns)
+            };
+        }
+        
+        private static void Commit(RfcDestination destination)
+        {
             var commit = destination.Repository.CreateFunction("BAPI_TRANSACTION_COMMIT");
             commit.SetValue("WAIT", "X");
             commit.Invoke(destination);
+        }
 
-            return new PostResult
-            {
-                Success = true,
-                Message = "RecordResults+Commit success. First return: " + firstMsg + " | " + debugContext + " | returns=" + debugReturns
-            };
+        private static bool ContainsResultsCannotBeEntered(string message)
+        {
+            var m = (message ?? string.Empty).ToLowerInvariant();
+            return m.Contains("rezultati ne morejo biti vnešeni")
+                   || m.Contains("results cannot be entered");
         }
 
         private static string TryResolveHandheldApplication(RfcDestination destination, string lot, string op)
@@ -157,6 +198,13 @@ namespace SAPVpis.Net47.Services
         private static string EmptyAsToken(string value)
         {
             return string.IsNullOrWhiteSpace(value) ? "<empty>" : value;
+        }
+
+        private sealed class AttemptResult
+        {
+            public bool HasError { get; set; }
+            public string FirstMessage { get; set; }
+            public string Message { get; set; }
         }
     }
 }
