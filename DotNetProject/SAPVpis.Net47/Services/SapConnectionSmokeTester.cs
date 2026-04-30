@@ -33,6 +33,8 @@ namespace SAPVpis.Net47.Services
                 var lotLanguage = ReadLotLanguage();
                 var lotService = new SapInspectionLotService();
                 var lotResult = lotService.CheckIsOpen(destination, lotNumber, lotLanguage);
+                var operationService = new SapInspectionOperationService();
+                var operationResult = operationService.ReadOperations(destination, lotNumber);
 
                 return new SapTrialResult
                 {
@@ -42,7 +44,8 @@ namespace SAPVpis.Net47.Services
                         destinationName,
                         smokeFunctionName) + Environment.NewLine +
                         string.Format("Plant rule applied: user '{0}' -> plant '{1}'.", login.User, plant) + Environment.NewLine +
-                        string.Format("Step 5 lot check (BAPI_INSPLOT_GETDETAIL, LANGUAGE={0}): {1}", lotLanguage, lotResult.Message),
+                        string.Format("Step 5 lot check (BAPI_INSPLOT_GETDETAIL, LANGUAGE={0}): {1}", lotLanguage, lotResult.Message) + Environment.NewLine +
+                        string.Format("Step 5 operations (BAPI_INSPLOT_GETOPERATIONS): {0}", operationResult.Message),
                     TimestampUtc = timestamp
                 };
             }
