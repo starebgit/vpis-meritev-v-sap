@@ -112,6 +112,24 @@ namespace SAPVpis.Net47.Services
             return parameters;
         }
 
+        private static RfcConfigParameters BuildParameters(SapLoginRepository.SapLoginRow login, string destinationName)
+        {
+            var parameters = new RfcConfigParameters();
+            parameters[RfcConfigParameters.Name] = destinationName;
+            parameters[RfcConfigParameters.AppServerHost] = login.ApplicationServer;
+            parameters[RfcConfigParameters.SystemNumber] = login.SystemNumber;
+            parameters[RfcConfigParameters.Client] = login.Client;
+            parameters[RfcConfigParameters.User] = login.User;
+            parameters[RfcConfigParameters.Password] = login.Password;
+            parameters[RfcConfigParameters.Language] = login.Language;
+            if (!string.IsNullOrWhiteSpace(login.System))
+            {
+                parameters[RfcConfigParameters.SystemID] = login.System;
+            }
+
+            return parameters;
+        }
+
         private static string ReadDestinationName()
         {
             var destinationName = ConfigurationManager.AppSettings["sap.destination.name"];
