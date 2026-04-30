@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using SAP.Middleware.Connector;
 
 namespace SAPVpis.Net47.Services
@@ -51,26 +52,46 @@ namespace SAPVpis.Net47.Services
             var ret = f.GetTable("RETURNTABLE");
             var hasError = false;
             var firstMsg = "";
+            var returnRows = new List<string>();
             for (var i = 0; i < ret.RowCount; i++)
             {
                 ret.CurrentIndex = i;
                 var type = GetString(ret, "TYPE");
                 var num = GetString(ret, "NUMBER");
                 var msg = GetString(ret, "MESSAGE");
+                returnRows.Add(type + "/" + num + " " + msg);
                 if (i == 0) firstMsg = type + "/" + num + " " + msg;
                 if (type == "E" || type == "A") hasError = true;
             }
 
+            var debugContext = string.Format(
+                "lot={0}, op={1}, char={2}, value={3}, handheld={4}, returnRows={5}",
+                lot,
+                EmptyAsToken(op),
+                EmptyAsToken(chr),
+                EmptyAsToken(val),
+                EmptyAsToken(handheld),
+                returnRows.Count);
+            var debugReturns = returnRows.Count == 0 ? "<none>" : string.Join(" || ", returnRows.ToArray());
+
             if (hasError)
             {
-                return new PostResult { Success = false, Message = "RecordResults failed: " + firstMsg + " | handheld=" + (handheld == string.Empty ? "<empty>" : handheld) };
+                return new PostResult
+                {
+                    Success = false,
+                    Message = "RecordResults failed: " + firstMsg + " | " + debugContext + " | returns=" + debugReturns
+                };
             }
 
             var commit = destination.Repository.CreateFunction("BAPI_TRANSACTION_COMMIT");
             commit.SetValue("WAIT", "X");
             commit.Invoke(destination);
 
-            return new PostResult { Success = true, Message = "RecordResults+Commit success. First return: " + firstMsg + " | handheld=" + (handheld == string.Empty ? "<empty>" : handheld) };
+            return new PostResult
+            {
+                Success = true,
+                Message = "RecordResults+Commit success. First return: " + firstMsg + " | " + debugContext + " | returns=" + debugReturns
+            };
         }
 
         private static string TryResolveHandheldApplication(RfcDestination destination, string lot, string op)
@@ -131,6 +152,11 @@ namespace SAPVpis.Net47.Services
         {
             var value = (lot ?? string.Empty).Trim();
             return value.Length >= 12 ? value : value.PadLeft(12, '0');
+        }
+
+        private static string EmptyAsToken(string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? "<empty>" : value;
         }
     }
 }

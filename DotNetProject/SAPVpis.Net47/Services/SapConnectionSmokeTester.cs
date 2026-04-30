@@ -44,10 +44,12 @@ namespace SAPVpis.Net47.Services
                 var operationService = new SapInspectionOperationService();
                 var operationResult = operationService.ReadOperations(destination, lotNumber);
                 var step6PostingEnabled = ReadStep6PostingEnabled();
-                var step6InspChar = ResolveStep6InspChar(destination, lotNumber, "0010");
+                string step6InspCharSource;
+                var step6InspChar = ResolveStep6InspChar(destination, lotNumber, "0010", out step6InspCharSource);
                 var step6PostMessage = string.Format(
-                    "Phase 1 preview (no posting). INSPCHAR={0}",
-                    string.IsNullOrWhiteSpace(step6InspChar) ? "<empty>" : step6InspChar);
+                    "Phase 1 preview (no posting). INSPCHAR={0} (source={1})",
+                    string.IsNullOrWhiteSpace(step6InspChar) ? "<empty>" : step6InspChar,
+                    step6InspCharSource);
                 if (step6PostingEnabled)
                 {
                     var resultValue = ReadStep6ResultValue();
@@ -67,6 +69,7 @@ namespace SAPVpis.Net47.Services
                         string.Format("Step 5 lot check (BAPI_INSPLOT_GETDETAIL, LANGUAGE={0}): {1}", lotLanguage, lotResult.Message) + Environment.NewLine +
                         string.Format("Step 5 operations (BAPI_INSPLOT_GETOPERATIONS): {0}", operationResult.Message) + Environment.NewLine +
                         string.Format("Step 6 mode: {0}", step6PostingEnabled ? "POST enabled (phase 2)" : "PREVIEW only - posting disabled (phase 1)") + Environment.NewLine +
+                        string.Format("Step 6 char source: {0}", step6InspCharSource) + Environment.NewLine +
                         string.Format("Step 6 posting result: {0}", step6PostMessage),
                     TimestampUtc = timestamp
                 };
@@ -148,7 +151,7 @@ namespace SAPVpis.Net47.Services
                    || string.Equals(raw.Trim(), "yes", StringComparison.OrdinalIgnoreCase);
         }
 
-        private static string ResolveStep6InspChar(RfcDestination destination, string lotNumber, string inspOper)
+        private static string ResolveStep6InspChar(RfcDestination destination, string lotNumber, string inspOper, out string source)
         {
             var configured = ReadStep6InspCharFallback();
             try
@@ -157,6 +160,7 @@ namespace SAPVpis.Net47.Services
                 var op = (inspOper ?? string.Empty).Trim();
                 if (string.IsNullOrWhiteSpace(op))
                 {
+                    source = "fallback:empty-op";
                     return configured;
                 }
 
@@ -169,15 +173,24 @@ namespace SAPVpis.Net47.Services
                 var chars = function.GetTable("INSPCHAR");
                 if (chars.RowCount == 0)
                 {
+                    source = "fallback:no-inspchar-rows";
                     return configured;
                 }
 
                 chars.CurrentIndex = 0;
                 var inspChar = GetString(chars, "INSPCHAR");
-                return string.IsNullOrWhiteSpace(inspChar) ? configured : inspChar;
+                if (string.IsNullOrWhiteSpace(inspChar))
+                {
+                    source = "fallback:first-inspchar-empty";
+                    return configured;
+                }
+
+                source = "sap:inspchar[0]";
+                return inspChar;
             }
             catch
             {
+                source = "fallback:exception";
                 return configured;
             }
         }
