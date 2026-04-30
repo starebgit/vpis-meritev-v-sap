@@ -12,18 +12,26 @@ namespace SAPVpis.Net47.Services
 
         public static SapTrialResult RunTrial()
         {
+            return RunTrialInternal(SapLoginRepository.GetDefaultLogin(), ReadDestinationName());
+        }
+
+        public static SapTrialResult RunTrialForSystem(string system)
+        {
+            var target = string.IsNullOrWhiteSpace(system) ? "E4Q" : system.Trim();
+            var login = SapLoginRepository.GetLoginBySystem(target);
+            return RunTrialInternal(login, ReadDestinationName() + "_" + target);
+        }
+
+        private static SapTrialResult RunTrialInternal(SapLoginRepository.SapLoginRow login, string destinationName)
+        {
             var timestamp = DateTime.UtcNow;
 
             try
             {
-                var destinationName = ReadDestinationName();
-                EnsureDestinationConfigurationRegistered(destinationName);
-
-                var destination = RfcDestinationManager.GetDestination(destinationName);
+                var destination = RfcDestinationManager.GetDestination(BuildParameters(login, destinationName));
                 destination.Ping();
 
                 var smokeFunctionName = ReadSmokeFunctionName();
-                var login = SapLoginRepository.GetDefaultLogin();
                 var plant = SapLoginRepository.ResolvePlant(login.User);
                 var repository = destination.Repository;
                 var function = repository.CreateFunction(smokeFunctionName);
@@ -58,6 +66,24 @@ namespace SAPVpis.Net47.Services
                     TimestampUtc = timestamp
                 };
             }
+        }
+
+        private static RfcConfigParameters BuildParameters(SapLoginRepository.SapLoginRow login, string destinationName)
+        {
+            var parameters = new RfcConfigParameters();
+            parameters[RfcConfigParameters.Name] = destinationName;
+            parameters[RfcConfigParameters.AppServerHost] = login.ApplicationServer;
+            parameters[RfcConfigParameters.SystemNumber] = login.SystemNumber;
+            parameters[RfcConfigParameters.Client] = login.Client;
+            parameters[RfcConfigParameters.User] = login.User;
+            parameters[RfcConfigParameters.Password] = login.Password;
+            parameters[RfcConfigParameters.Language] = login.Language;
+            if (!string.IsNullOrWhiteSpace(login.System))
+            {
+                parameters[RfcConfigParameters.SystemID] = login.System;
+            }
+
+            return parameters;
         }
 
         private static string ReadDestinationName()

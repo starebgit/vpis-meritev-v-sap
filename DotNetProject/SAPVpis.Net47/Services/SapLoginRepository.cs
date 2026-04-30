@@ -21,13 +21,27 @@ namespace SAPVpis.Net47.Services
 
         public static SapLoginRow GetDefaultLogin()
         {
+            return QuerySingleLogin("select top 1 uporab, sistem, client, streznik, sysnnum, pass, jezik from prijava where glavni = 'X'", null);
+        }
+
+        public static SapLoginRow GetLoginBySystem(string system)
+        {
+            return QuerySingleLogin("select top 1 uporab, sistem, client, streznik, sysnnum, pass, jezik from prijava where sistem = :SYSTEM", system);
+        }
+
+        private static SapLoginRow QuerySingleLogin(string sql, string system)
+        {
             var configuredConnectionString = ReadRequired("sap.login.db.connection_string");
             var connectionString = NormalizeToSqlClientConnectionString(configuredConnectionString);
-            const string sql = @"select top 1 uporab, sistem, client, streznik, sysnnum, pass, jezik from prijava where glavni = 'X'";
 
             using (var conn = new SqlConnection(connectionString))
             using (var cmd = new SqlCommand(sql, conn))
             {
+                if (!string.IsNullOrWhiteSpace(system))
+                {
+                    cmd.CommandText = cmd.CommandText.Replace(":SYSTEM", "@SYSTEM");
+                    cmd.Parameters.AddWithValue("@SYSTEM", system.Trim());
+                }
                 conn.Open();
                 using (var reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
                 {
