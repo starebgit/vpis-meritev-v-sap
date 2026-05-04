@@ -29,7 +29,7 @@ namespace SAPVpis.Net47.Services
 
             try
             {
-                var destination = RfcDestinationManager.GetDestination(BuildParameters(login, destinationName));
+                var destination = RfcDestinationManager.GetDestination(BuildParametersFromLogin(login, destinationName));
                 destination.Ping();
 
                 var smokeFunctionName = ReadSmokeFunctionName();
@@ -94,25 +94,7 @@ namespace SAPVpis.Net47.Services
             }
         }
 
-        private static RfcConfigParameters BuildParameters(SapLoginRepository.SapLoginRow login, string destinationName)
-        {
-            var parameters = new RfcConfigParameters();
-            parameters[RfcConfigParameters.Name] = destinationName;
-            parameters[RfcConfigParameters.AppServerHost] = login.ApplicationServer;
-            parameters[RfcConfigParameters.SystemNumber] = login.SystemNumber;
-            parameters[RfcConfigParameters.Client] = login.Client;
-            parameters[RfcConfigParameters.User] = login.User;
-            parameters[RfcConfigParameters.Password] = login.Password;
-            parameters[RfcConfigParameters.Language] = login.Language;
-            if (!string.IsNullOrWhiteSpace(login.System))
-            {
-                parameters[RfcConfigParameters.SystemID] = login.System;
-            }
-
-            return parameters;
-        }
-
-        private static RfcConfigParameters BuildParameters(SapLoginRepository.SapLoginRow login, string destinationName)
+        private static RfcConfigParameters BuildParametersFromLogin(SapLoginRepository.SapLoginRow login, string destinationName)
         {
             var parameters = new RfcConfigParameters();
             parameters[RfcConfigParameters.Name] = destinationName;
