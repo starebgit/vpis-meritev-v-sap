@@ -10,7 +10,7 @@
     <AssemblyName>SAPVpis.Net47</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <SapNcoPath Condition="Exists('..\dll\sapnco.dll')">..\dll\sapnco.dll</SapNcoPath>
     <SapNcoPath Condition="'$(SapNcoPath)' == '' and Exists('..\dll\32\sapnco.dll')">..\dll\32\sapnco.dll</SapNcoPath>
