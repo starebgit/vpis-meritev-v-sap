@@ -94,6 +94,16 @@ namespace SAPVpis.Net47.Forms
 
             menuStrip.Items.Add(_menuPregled);
             menuStrip.Items.Add(_menuLanguage);
+
+            var buildDate = System.IO.File.GetLastWriteTime(Application.ExecutablePath);
+            var lblBuild = new ToolStripLabel("build: " + buildDate.ToString("yyyy-MM-dd HH:mm"))
+            {
+                Alignment = ToolStripItemAlignment.Right,
+                ForeColor = Color.DimGray,
+                Font = new Font(menuStrip.Font.FontFamily, menuStrip.Font.Size, FontStyle.Italic)
+            };
+            menuStrip.Items.Add(lblBuild);
+
             MainMenuStrip = menuStrip;
 
             AppTranslations.LanguageChanged += (s, e) => { ApplyTranslations(); _menuLanguage.Text = AppTranslations.T("menu_language"); };
