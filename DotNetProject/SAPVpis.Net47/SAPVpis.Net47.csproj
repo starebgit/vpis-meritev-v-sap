@@ -134,22 +134,35 @@
     <Error Condition="'$(SapNcoPath)' == ''" Text="Missing sapnco.dll in ..\dll\ or ..\dll\32\." />
     <Error Condition="'$(SapNcoUtilsPath)' == ''" Text="Missing sapnco_utils.dll in ..\dll\ or ..\dll\32\." />
   </Target>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--
-    Deploy target: fires after a successful build when:
-      - Configuration = "Deploy"  (always)
+    IMPORTANT: this target must be AFTER the Microsoft.CSharp.targets import.
+    Using AfterTargets="Build" with a unique name avoids the well-known AfterBuild
+    override that Microsoft.CSharp.targets would win if defined before the import.
+
+    Fires when:
+      - Configuration = "Deploy"  (always, with or without creds file)
       - Configuration = "Release" AND deploy-creds.txt exists next to the .csproj
-    Calls Deploy\Deploy-ToNetworkShare.ps1 with -SkipBuild (MSBuild already compiled).
-    If deploy-creds.txt exists the script reads credentials from it silently;
-    otherwise it shows Windows' built-in credential dialog.
+
+    The PS script reads credentials from deploy-creds.txt silently.
+    All script output (Write-Output) is captured by ConsoleToMsBuild and appears
+    in the VS Output window under the Build pane.
   -->
-  <Target Name="AfterBuild"
+  <Target Name="DeployToNetworkShare"
+          AfterTargets="Build"
           Condition="'$(Configuration)' == 'Deploy' Or
                      ('$(Configuration)' == 'Release' And Exists('$(MSBuildProjectDirectory)\deploy-creds.txt'))">
-    <Message Text="==> Starting deployment to network share..." Importance="high" />
-    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Deploy\Deploy-ToNetworkShare.ps1&quot; -SkipBuild"
+    <Message Text="" Importance="high" />
+    <Message Text="========================================" Importance="high" />
+    <Message Text="  DEPLOY: copying to network share..." Importance="high" />
+    <Message Text="========================================" Importance="high" />
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Deploy\Deploy-ToNetworkShare.ps1&quot; -SkipBuild"
           WorkingDirectory="$(MSBuildProjectDirectory)"
-          ConsoleToMsBuild="true" />
-    <Message Text="==> Deployment complete." Importance="high" />
+          ConsoleToMsBuild="true"
+          StandardOutputImportance="high"
+          StandardErrorImportance="high" />
+    <Message Text="========================================" Importance="high" />
+    <Message Text="  DEPLOY COMPLETE" Importance="high" />
+    <Message Text="========================================" Importance="high" />
   </Target>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

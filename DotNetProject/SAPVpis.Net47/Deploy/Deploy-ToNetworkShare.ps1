@@ -44,10 +44,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-function Write-Step([string]$msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
-function Write-Ok  ([string]$msg) { Write-Host "    $msg" -ForegroundColor Green }
-function Write-Warn2([string]$msg){ Write-Host "    $msg" -ForegroundColor Yellow }
-function Write-Err ([string]$msg) { Write-Host "    $msg" -ForegroundColor Red }
+function Write-Step([string]$msg) { Write-Output "==> $msg" }
+function Write-Ok  ([string]$msg) { Write-Output "    OK  $msg" }
+function Write-Warn2([string]$msg){ Write-Output "    WARN $msg" }
+function Write-Err ([string]$msg) { Write-Output "    ERR $msg" }
 
 # --- Resolve script + project paths --------------------------------------------------
 $scriptDir   = Split-Path -Parent $MyInvocation.MyCommand.Definition
