@@ -16,9 +16,24 @@
     <SapNcoPath Condition="'$(SapNcoPath)' == '' and Exists('..\dll\32\sapnco.dll')">..\dll\32\sapnco.dll</SapNcoPath>
     <SapNcoUtilsPath Condition="Exists('..\dll\sapnco_utils.dll')">..\dll\sapnco_utils.dll</SapNcoUtilsPath>
     <SapNcoUtilsPath Condition="'$(SapNcoUtilsPath)' == '' and Exists('..\dll\32\sapnco_utils.dll')">..\dll\32\sapnco_utils.dll</SapNcoUtilsPath>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -28,7 +43,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <!-- Deploy configuration: same as Release but triggers copy to network share after build -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Deploy|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -88,9 +113,43 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Deploy\Deploy-ToNetworkShare.ps1" />
+    <None Include="Deploy\deploy.cmd" />
+    <None Include="Deploy\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Target Name="EnsureSapConnectorDlls" BeforeTargets="ResolveReferences">
     <Error Condition="'$(SapNcoPath)' == ''" Text="Missing sapnco.dll in ..\dll\ or ..\dll\32\." />
     <Error Condition="'$(SapNcoUtilsPath)' == ''" Text="Missing sapnco_utils.dll in ..\dll\ or ..\dll\32\." />
+  </Target>
+  <!--
+    Deploy target: fires after a successful build when:
+      - Configuration = "Deploy"  (always)
+      - Configuration = "Release" AND deploy-creds.txt exists next to the .csproj
+    Calls Deploy\Deploy-ToNetworkShare.ps1 with -SkipBuild (MSBuild already compiled).
+    If deploy-creds.txt exists the script reads credentials from it silently;
+    otherwise it shows Windows' built-in credential dialog.
+  -->
+  <Target Name="AfterBuild"
+          Condition="'$(Configuration)' == 'Deploy' Or
+                     ('$(Configuration)' == 'Release' And Exists('$(MSBuildProjectDirectory)\deploy-creds.txt'))">
+    <Message Text="==> Starting deployment to network share..." Importance="high" />
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Deploy\Deploy-ToNetworkShare.ps1&quot; -SkipBuild"
+          WorkingDirectory="$(MSBuildProjectDirectory)"
+          ConsoleToMsBuild="true" />
+    <Message Text="==> Deployment complete." Importance="high" />
   </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

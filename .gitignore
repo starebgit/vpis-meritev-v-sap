@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# Deploy credentials - NEVER commit this file
+deploy-creds.txt
+
+# NuGet
+packages/
+*.nupkg
+
+# Logs and temp
+*.log
+*.tmp
