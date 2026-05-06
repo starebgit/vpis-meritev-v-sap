@@ -6,9 +6,21 @@ namespace SAPVpis.Net47.Services
 {
     internal sealed class SapInspectionOperationService
     {
+        // Delphi: tabr.value[j,2]+'  '+tabr.value[j,4] — col2=INSPOPER, col4=LTXA1
+        internal sealed class OperationEntry
+        {
+            public string InspOper { get; set; }
+            public string ShortText { get; set; }
+
+            public override string ToString()
+            {
+                return string.IsNullOrWhiteSpace(ShortText) ? InspOper : InspOper + "  " + ShortText;
+            }
+        }
+
         internal sealed class OperationReadResult
         {
-            public IReadOnlyCollection<string> Operations { get; set; }
+            public IReadOnlyCollection<OperationEntry> Operations { get; set; }
             public string ReturnType { get; set; }
             public string ReturnNumber { get; set; }
             public string ReturnMessage { get; set; }
@@ -28,11 +40,15 @@ namespace SAPVpis.Net47.Services
             var returnMessage = GetString(ret, "MESSAGE");
 
             var table = function.GetTable("INSPOPER_LIST");
-            var operations = new List<string>();
+            var operations = new List<OperationEntry>();
             for (var row = 0; row < table.RowCount; row++)
             {
                 table.CurrentIndex = row;
-                operations.Add(GetString(table, "INSPOPER"));
+                operations.Add(new OperationEntry
+                {
+                    InspOper = GetString(table, "INSPOPER"),
+                    ShortText = GetStringSafe(table, "TXT_OPER")
+                });
             }
 
             return new OperationReadResult
@@ -59,6 +75,12 @@ namespace SAPVpis.Net47.Services
         private static string GetString(IRfcTable table, string field)
         {
             return (table.GetString(field) ?? string.Empty).Trim();
+        }
+
+        private static string GetStringSafe(IRfcTable table, string field)
+        {
+            try { return (table.GetString(field) ?? string.Empty).Trim(); }
+            catch { return string.Empty; }
         }
 
         private static string NormalizeInspectionLot(string lot)

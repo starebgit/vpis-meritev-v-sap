@@ -12,10 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-
     <SapNcoPath Condition="Exists('..\dll\sapnco.dll')">..\dll\sapnco.dll</SapNcoPath>
     <SapNcoPath Condition="'$(SapNcoPath)' == '' and Exists('..\dll\32\sapnco.dll')">..\dll\32\sapnco.dll</SapNcoPath>
-
     <SapNcoUtilsPath Condition="Exists('..\dll\sapnco_utils.dll')">..\dll\sapnco_utils.dll</SapNcoUtilsPath>
     <SapNcoUtilsPath Condition="'$(SapNcoUtilsPath)' == '' and Exists('..\dll\32\sapnco_utils.dll')">..\dll\32\sapnco_utils.dll</SapNcoUtilsPath>
   </PropertyGroup>
@@ -57,18 +55,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="Forms\MainForm.cs" />
+    <Compile Include="AppTranslations.cs" />
+    <Compile Include="UiStyle.cs" />
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SqlSarzeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SqlViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VnosForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VpisMerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Services\SapCharacteristicService.cs" />
     <Compile Include="Services\SapConnectionSmokeTester.cs" />
     <Compile Include="Services\SapDestinationConfiguration.cs" />
+    <Compile Include="Services\SapInspectionListService.cs" />
+    <Compile Include="Services\SapInspectionLotService.cs" />
+    <Compile Include="Services\SapInspectionOperationService.cs" />
+    <Compile Include="Services\SapInspectionRecordPostService.cs" />
+    <Compile Include="Services\SapKontSarzeRepository.cs" />
+    <Compile Include="Services\SapMeasurementSqlRepository.cs" />
+    <Compile Include="Services\SapLocalIntegrationService.cs" />
+    <Compile Include="Services\SapLoginRepository.cs" />
+    <Compile Include="Services\SapSessionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-
   <Target Name="EnsureSapConnectorDlls" BeforeTargets="ResolveReferences">
     <Error Condition="'$(SapNcoPath)' == ''" Text="Missing sapnco.dll in ..\dll\ or ..\dll\32\." />
     <Error Condition="'$(SapNcoUtilsPath)' == ''" Text="Missing sapnco_utils.dll in ..\dll\ or ..\dll\32\." />
   </Target>
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
