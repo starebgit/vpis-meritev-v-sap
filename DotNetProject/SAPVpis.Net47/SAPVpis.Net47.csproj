@@ -78,6 +78,23 @@
       <Private>true</Private>
     </Reference>
   </ItemGroup>
+  <!-- Native DLLs required by the classic .NET Framework sapnco 3.1 (net461 build).
+       rscp4n.dll = SAP RFC native library loaded by sapnco_utils at runtime.
+       msvcp140/vcruntime140 = VC++ 2015 runtime bundled so clients need no separate install. -->
+  <ItemGroup>
+    <Content Include="..\dll\rscp4n.dll">
+      <Link>rscp4n.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dll\msvcp140.dll">
+      <Link>msvcp140.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\dll\vcruntime140.dll">
+      <Link>vcruntime140.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="AppTranslations.cs" />

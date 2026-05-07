@@ -17,3 +17,14 @@ packages/
 # Logs and temp
 *.log
 *.tmp
+
+# Porting and progress documentation
+PORTING_PLAN.md
+MIGRATION_PLAN.md
+PHASE0_PARITY_CONTRACT.md
+SAP_TRIAL_RUN.md
+PROJECT_STRUCTURE.md
+STEP*.txt
+
+# Claude Code working directory
+.claude/
